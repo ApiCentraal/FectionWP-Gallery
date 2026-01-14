@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: FectionWP Gallery 1.0.7\n"
+"Project-Id-Version: FectionWP Gallery 1.0.8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-14 00:00+0000\n"
 "PO-Revision-Date: 2026-01-14 00:00+0000\n"
@@ -11,6 +11,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "%1$d of %2$d"
+msgstr ""
+
+msgid "Slides"
+msgstr ""
+
+msgid "Video"
+msgstr ""
 
 msgid "Add New"
 msgstr ""

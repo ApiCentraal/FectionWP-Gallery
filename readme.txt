@@ -4,7 +4,7 @@ Tags: gallery, slider, carousel, bootstrap, video
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.0.7
+Stable tag: 1.0.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,6 +51,13 @@ By default the plugin uses bundled Bootstrap 5.3.3 files (recommended for WordPr
 No. Uninstall removes plugin options and known meta keys, but keeps the gallery posts.
 
 == Changelog ==
+
+= 1.0.8 =
+* Improve: frontend assets are enqueued only when needed (shortcode/widget), with safe fallback.
+* Improve: stronger sanitization for `style` overrides.
+* Improve: shortcode output caching (transient) with automatic invalidation on gallery/style changes.
+* Improve: accessibility labels for gallery regions, carousels, slides, and video media.
+* Dev: add CI (PHP lint), SECURITY/CONTRIBUTING docs.
 
 = 1.0.7 =
 * Improve: Styling page navigation + filtering (hides empty sections and shows a no-results message).

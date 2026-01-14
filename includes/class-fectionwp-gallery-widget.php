@@ -29,6 +29,10 @@ class FectionWP_Gallery_Widget_Impl extends WP_Widget
         $gallery_id = isset($instance['gallery_id']) ? absint($instance['gallery_id']) : 0;
         $layout = isset($instance['layout']) ? sanitize_key((string) $instance['layout']) : '';
 
+        if (!is_admin() && class_exists(FectionWP_Gallery::class)) {
+            FectionWP_Gallery::ensure_public_assets();
+        }
+
         echo $args['before_widget']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
         if ($title !== '') {

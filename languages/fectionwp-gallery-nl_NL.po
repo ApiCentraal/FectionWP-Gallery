@@ -277,6 +277,15 @@ msgid "Open"
 msgstr "Openen"
 
 msgid "Open media"
+
+msgid "%1$d of %2$d"
+msgstr "%1$d van %2$d"
+
+msgid "Slides"
+msgstr "Dia's"
+
+msgid "Video"
+msgstr "Video"
 msgstr "Media openen"
 
 msgid "Preset applied: %s"

@@ -1007,6 +1007,10 @@ class FectionWP_Gallery_Admin
         update_post_meta($post_id, self::META_STYLE_MEDIA_BG, (string) ($style_clean['media_bg'] ?? ''));
         update_post_meta($post_id, self::META_STYLE_CARD_HEADER_BG, (string) ($style_clean['card_header_bg'] ?? ''));
         update_post_meta($post_id, self::META_STYLE_CARD_HEADER_COLOR, (string) ($style_clean['card_header_color'] ?? ''));
+
+        if (class_exists(FectionWP_Gallery::class)) {
+            FectionWP_Gallery::bump_gallery_cache_version($post_id);
+        }
     }
 
     public static function get_gallery_meta(int $post_id): array

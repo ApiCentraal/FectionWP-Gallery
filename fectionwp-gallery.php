@@ -2,7 +2,7 @@
 /**
  * Plugin Name: FectionWP Gallery
  * Description: Photo/video media galleries as beautiful Bootstrap 5.3 sliders, cards and widgets.
- * Version: 1.0.7
+ * Version: 1.0.8
  * Requires at least: 6.0
  * Requires PHP: 7.4
  * Author: FectionLabs
@@ -15,7 +15,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('FECTIONWPGALLERY_VERSION', '1.0.7');
+define('FECTIONWPGALLERY_VERSION', '1.0.8');
 define('FECTIONWPGALLERY_FILE', __FILE__);
 define('FECTIONWPGALLERY_DIR', plugin_dir_path(__FILE__));
 define('FECTIONWPGALLERY_URL', plugin_dir_url(__FILE__));

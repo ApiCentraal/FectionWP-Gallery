@@ -1,0 +1,322 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: FectionWP Gallery 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-14 00:00+0000\n"
+"PO-Revision-Date: 2026-01-14 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Add New"
+msgstr ""
+
+msgid "Add New Gallery"
+msgstr ""
+
+msgid "Advanced styling overrides (this gallery)"
+msgstr ""
+
+msgid "Applies to global styling (all galleries)."
+msgstr ""
+
+msgid "Apply Black"
+msgstr ""
+
+msgid "Apply White"
+msgstr ""
+
+msgid "Black"
+msgstr ""
+
+msgid "Border radius"
+msgstr ""
+
+msgid "Button background"
+msgstr ""
+
+msgid "Button border color"
+msgstr ""
+
+msgid "Button hover background"
+msgstr ""
+
+msgid "Button hover text color"
+msgstr ""
+
+msgid "Button padding"
+msgstr ""
+
+msgid "Button radius"
+msgstr ""
+
+msgid "Button text color"
+msgstr ""
+
+msgid "Buttons"
+msgstr ""
+
+msgid "Caption background"
+msgstr ""
+
+msgid "Caption padding"
+msgstr ""
+
+msgid "Caption radius"
+msgstr ""
+
+msgid "Caption text color"
+msgstr ""
+
+msgid "Card background"
+msgstr ""
+
+msgid "Card body padding"
+msgstr ""
+
+msgid "Card border color"
+msgstr ""
+
+msgid "Card border width"
+msgstr ""
+
+msgid "Card header background"
+msgstr ""
+
+msgid "Card header text color"
+msgstr ""
+
+msgid "Card slider"
+msgstr ""
+
+msgid "Card text color"
+msgstr ""
+
+msgid "Cards"
+msgstr ""
+
+msgid "Cards per slide"
+msgstr ""
+
+msgid "Carousel"
+msgstr ""
+
+msgid "Choose media"
+msgstr ""
+
+msgid "Clear"
+msgstr ""
+
+msgid "Contain"
+msgstr ""
+
+msgid "Controls background"
+msgstr ""
+
+msgid "Controls background radius"
+msgstr ""
+
+msgid "Controls hover opacity"
+msgstr ""
+
+msgid "Controls icon width"
+msgstr ""
+
+msgid "Controls opacity"
+msgstr ""
+
+msgid "Cover"
+msgstr ""
+
+msgid "Create galleries with images and videos, then embed them via shortcode or widget."
+msgstr ""
+
+msgid "Edit Gallery"
+msgstr ""
+
+msgid "Fection Gallery"
+msgstr ""
+
+msgid "Fection Gallery Styling"
+msgstr ""
+
+msgid "Fection Gallery → Styling"
+msgstr ""
+
+msgid "Font family"
+msgstr ""
+
+msgid "Galleries"
+msgstr ""
+
+msgid "Gallery"
+msgstr ""
+
+msgid "Gallery Builder"
+msgstr ""
+
+msgid "Gallery Settings"
+msgstr ""
+
+msgid "Gap (cards/grid)"
+msgstr ""
+
+msgid "General"
+msgstr ""
+
+msgid "Global defaults:"
+msgstr ""
+
+msgid "Header margin bottom"
+msgstr ""
+
+msgid "Header text (optional)"
+msgstr ""
+
+msgid "Indicators active color"
+msgstr ""
+
+msgid "Indicators active opacity"
+msgstr ""
+
+msgid "Indicators color"
+msgstr ""
+
+msgid "Indicators gap"
+msgstr ""
+
+msgid "Indicators height"
+msgstr ""
+
+msgid "Indicators opacity"
+msgstr ""
+
+msgid "Indicators width"
+msgstr ""
+
+msgid "Inherit"
+msgstr ""
+
+msgid "Layout"
+msgstr ""
+
+msgid "Layout override"
+msgstr ""
+
+msgid "Leave fields empty to inherit the global styling."
+msgstr ""
+
+msgid "Manage Galleries"
+msgstr ""
+
+msgid "Media"
+msgstr ""
+
+msgid "Media aspect ratio"
+msgstr ""
+
+msgid "Media background"
+msgstr ""
+
+msgid "Media fit"
+msgstr ""
+
+msgid "Media gallery"
+msgstr ""
+
+msgid "Media max height"
+msgstr ""
+
+msgid "New Gallery"
+msgstr ""
+
+msgid "Next"
+msgstr ""
+
+msgid "No galleries found"
+msgstr ""
+
+msgid "No galleries found in Trash"
+msgstr ""
+
+msgid "Open"
+msgstr ""
+
+msgid "Open media"
+msgstr ""
+
+msgid "Preset applied: %s"
+msgstr ""
+
+msgid "Presets"
+msgstr ""
+
+msgid "Previous"
+msgstr ""
+
+msgid "Search Galleries"
+msgstr ""
+
+msgid "Select media"
+msgstr ""
+
+msgid "Select…"
+msgstr ""
+
+msgid "Shadow"
+msgstr ""
+
+msgid "Shortcode"
+msgstr ""
+
+msgid "Shortcode:"
+msgstr ""
+
+msgid "Show a Fection gallery in your sidebar."
+msgstr ""
+
+msgid "Show “Open” button in card footer"
+msgstr ""
+
+msgid "Slide %d"
+msgstr ""
+
+msgid "Styling"
+msgstr ""
+
+msgid "Text font size"
+msgstr ""
+
+msgid "These defaults apply to all galleries. Individual galleries can override styling in the gallery editor."
+msgstr ""
+
+msgid "Tip: select images and videos from the Media Library. Order is preserved."
+msgstr ""
+
+msgid "Tip: you can paste CSS values (e.g. 1rem, rgba(...), 16/9). Most fields are CSS variables mapped onto Bootstrap 5.3 components."
+msgstr ""
+
+msgid "Title"
+msgstr ""
+
+msgid "Title font size"
+msgstr ""
+
+msgid "Typography"
+msgstr ""
+
+msgid "Use gallery setting"
+msgstr ""
+
+msgid "Use selected"
+msgstr ""
+
+msgid "View Gallery"
+msgstr ""
+
+msgid "White"
+msgstr ""

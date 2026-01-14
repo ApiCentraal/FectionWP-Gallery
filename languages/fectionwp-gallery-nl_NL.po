@@ -1,0 +1,322 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: FectionWP Gallery 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-14 00:00+0000\n"
+"PO-Revision-Date: 2026-01-14 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: nl_NL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Add New"
+msgstr "Nieuwe toevoegen"
+
+msgid "Add New Gallery"
+msgstr "Nieuwe galerij toevoegen"
+
+msgid "Advanced styling overrides (this gallery)"
+msgstr "Geavanceerde styling-overschrijvingen (deze galerij)"
+
+msgid "Applies to global styling (all galleries)."
+msgstr "Past toe op globale styling (alle galerijen)."
+
+msgid "Apply Black"
+msgstr "Zwart toepassen"
+
+msgid "Apply White"
+msgstr "Wit toepassen"
+
+msgid "Black"
+msgstr "Zwart"
+
+msgid "Border radius"
+msgstr "Randradius"
+
+msgid "Button background"
+msgstr "Knop-achtergrond"
+
+msgid "Button border color"
+msgstr "Knop-randkleur"
+
+msgid "Button hover background"
+msgstr "Knop-hover-achtergrond"
+
+msgid "Button hover text color"
+msgstr "Knop-hover-tekstkleur"
+
+msgid "Button padding"
+msgstr "Knop-padding"
+
+msgid "Button radius"
+msgstr "Knop-radius"
+
+msgid "Button text color"
+msgstr "Knop-tekstkleur"
+
+msgid "Buttons"
+msgstr "Knoppen"
+
+msgid "Caption background"
+msgstr "Onderschrift-achtergrond"
+
+msgid "Caption padding"
+msgstr "Onderschrift-padding"
+
+msgid "Caption radius"
+msgstr "Onderschrift-radius"
+
+msgid "Caption text color"
+msgstr "Onderschrift-tekstkleur"
+
+msgid "Card background"
+msgstr "Kaart-achtergrond"
+
+msgid "Card body padding"
+msgstr "Kaart-body-padding"
+
+msgid "Card border color"
+msgstr "Kaart-randkleur"
+
+msgid "Card border width"
+msgstr "Kaart-randbreedte"
+
+msgid "Card header background"
+msgstr "Kaart-header-achtergrond"
+
+msgid "Card header text color"
+msgstr "Kaart-header-tekstkleur"
+
+msgid "Card slider"
+msgstr "Kaartslider"
+
+msgid "Card text color"
+msgstr "Kaart-tekstkleur"
+
+msgid "Cards"
+msgstr "Kaarten"
+
+msgid "Cards per slide"
+msgstr "Kaarten per slide"
+
+msgid "Carousel"
+msgstr "Carrousel"
+
+msgid "Choose media"
+msgstr "Media kiezen"
+
+msgid "Clear"
+msgstr "Wissen"
+
+msgid "Contain"
+msgstr "Contain"
+
+msgid "Controls background"
+msgstr "Bediening-achtergrond"
+
+msgid "Controls background radius"
+msgstr "Bediening-achtergrondradius"
+
+msgid "Controls hover opacity"
+msgstr "Bediening hover doorzichtigheid"
+
+msgid "Controls icon width"
+msgstr "Bedienings-icoonbreedte"
+
+msgid "Controls opacity"
+msgstr "Bediening doorzichtigheid"
+
+msgid "Cover"
+msgstr "Cover"
+
+msgid "Create galleries with images and videos, then embed them via shortcode or widget."
+msgstr "Maak galerijen met afbeeldingen en video’s en embed ze via shortcode of widget."
+
+msgid "Edit Gallery"
+msgstr "Galerij bewerken"
+
+msgid "Fection Gallery"
+msgstr "Fection Gallery"
+
+msgid "Fection Gallery Styling"
+msgstr "Fection Gallery styling"
+
+msgid "Fection Gallery → Styling"
+msgstr "Fection Gallery → Styling"
+
+msgid "Font family"
+msgstr "Lettertypefamilie"
+
+msgid "Galleries"
+msgstr "Galerijen"
+
+msgid "Gallery"
+msgstr "Galerij"
+
+msgid "Gallery Builder"
+msgstr "Galerijbouwer"
+
+msgid "Gallery Settings"
+msgstr "Galerij-instellingen"
+
+msgid "Gap (cards/grid)"
+msgstr "Tussenruimte (kaarten/raster)"
+
+msgid "General"
+msgstr "Algemeen"
+
+msgid "Global defaults:"
+msgstr "Globale standaardwaarden:"
+
+msgid "Header margin bottom"
+msgstr "Header marge onder"
+
+msgid "Header text (optional)"
+msgstr "Headertekst (optioneel)"
+
+msgid "Indicators active color"
+msgstr "Indicatoren actieve kleur"
+
+msgid "Indicators active opacity"
+msgstr "Indicatoren actieve doorzichtigheid"
+
+msgid "Indicators color"
+msgstr "Indicatoren kleur"
+
+msgid "Indicators gap"
+msgstr "Indicatoren tussenruimte"
+
+msgid "Indicators height"
+msgstr "Indicatoren hoogte"
+
+msgid "Indicators opacity"
+msgstr "Indicatoren doorzichtigheid"
+
+msgid "Indicators width"
+msgstr "Indicatoren breedte"
+
+msgid "Inherit"
+msgstr "Overnemen"
+
+msgid "Layout"
+msgstr "Layout"
+
+msgid "Layout override"
+msgstr "Layout overschrijven"
+
+msgid "Leave fields empty to inherit the global styling."
+msgstr "Laat velden leeg om de globale styling over te nemen."
+
+msgid "Manage Galleries"
+msgstr "Galerijen beheren"
+
+msgid "Media"
+msgstr "Media"
+
+msgid "Media aspect ratio"
+msgstr "Media beeldverhouding"
+
+msgid "Media background"
+msgstr "Media-achtergrond"
+
+msgid "Media fit"
+msgstr "Media passend maken"
+
+msgid "Media gallery"
+msgstr "Media galerij"
+
+msgid "Media max height"
+msgstr "Media maximale hoogte"
+
+msgid "New Gallery"
+msgstr "Nieuwe galerij"
+
+msgid "Next"
+msgstr "Volgende"
+
+msgid "No galleries found"
+msgstr "Geen galerijen gevonden"
+
+msgid "No galleries found in Trash"
+msgstr "Geen galerijen gevonden in de prullenbak"
+
+msgid "Open"
+msgstr "Openen"
+
+msgid "Open media"
+msgstr "Media openen"
+
+msgid "Preset applied: %s"
+msgstr "Preset toegepast: %s"
+
+msgid "Presets"
+msgstr "Presets"
+
+msgid "Previous"
+msgstr "Vorige"
+
+msgid "Search Galleries"
+msgstr "Galerijen zoeken"
+
+msgid "Select media"
+msgstr "Media selecteren"
+
+msgid "Select…"
+msgstr "Selecteer…"
+
+msgid "Shadow"
+msgstr "Schaduw"
+
+msgid "Shortcode"
+msgstr "Shortcode"
+
+msgid "Shortcode:"
+msgstr "Shortcode:"
+
+msgid "Show a Fection gallery in your sidebar."
+msgstr "Toon een Fection-galerij in je zijbalk."
+
+msgid "Show “Open” button in card footer"
+msgstr "Toon “Openen”-knop in de kaartfooter"
+
+msgid "Slide %d"
+msgstr "Slide %d"
+
+msgid "Styling"
+msgstr "Styling"
+
+msgid "Text font size"
+msgstr "Tekstgrootte"
+
+msgid "These defaults apply to all galleries. Individual galleries can override styling in the gallery editor."
+msgstr "Deze standaardwaarden gelden voor alle galerijen. Individuele galerijen kunnen styling overschrijven in de galerij-editor."
+
+msgid "Tip: select images and videos from the Media Library. Order is preserved."
+msgstr "Tip: selecteer afbeeldingen en video’s uit de Mediabibliotheek. De volgorde blijft behouden."
+
+msgid "Tip: you can paste CSS values (e.g. 1rem, rgba(...), 16/9). Most fields are CSS variables mapped onto Bootstrap 5.3 components."
+msgstr "Tip: je kunt CSS-waarden plakken (bijv. 1rem, rgba(...), 16/9). De meeste velden zijn CSS-variabelen die gekoppeld zijn aan Bootstrap 5.3 componenten."
+
+msgid "Title"
+msgstr "Titel"
+
+msgid "Title font size"
+msgstr "Titelgrootte"
+
+msgid "Typography"
+msgstr "Typografie"
+
+msgid "Use gallery setting"
+msgstr "Gebruik galerij-instelling"
+
+msgid "Use selected"
+msgstr "Gebruik geselecteerde"
+
+msgid "View Gallery"
+msgstr "Galerij bekijken"
+
+msgid "White"
+msgstr "Wit"

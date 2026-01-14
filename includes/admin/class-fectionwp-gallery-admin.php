@@ -36,14 +36,6 @@ class FectionWP_Gallery_Admin
 
         add_submenu_page(
             'fectionwp-gallery',
-            __('Galleries', 'fectionwp-gallery'),
-            __('Galleries', 'fectionwp-gallery'),
-            'edit_posts',
-            'edit.php?post_type=' . FectionWP_Gallery_CPT::POST_TYPE
-        );
-
-        add_submenu_page(
-            'fectionwp-gallery',
             __('Styling', 'fectionwp-gallery'),
             __('Styling', 'fectionwp-gallery'),
             'manage_options',

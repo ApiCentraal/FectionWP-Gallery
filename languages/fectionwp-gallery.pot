@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: FectionWP Gallery 1.0.3\n"
+"Project-Id-Version: FectionWP Gallery 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-14 00:00+0000\n"
 "PO-Revision-Date: 2026-01-14 00:00+0000\n"
@@ -358,4 +358,43 @@ msgid "Create a gallery first, then preview it here."
 msgstr ""
 
 msgid "Tip: this preview uses the same shortcode renderer as the frontend. Styling is controlled via Fection Gallery → Styling and per-gallery overrides."
+msgstr ""
+
+msgid "Live preview"
+msgstr ""
+
+msgid "Refresh"
+msgstr ""
+
+msgid "Interval (ms)"
+msgstr ""
+
+msgid "Loading preview…"
+msgstr ""
+
+msgid "Could not render preview."
+msgstr ""
+
+msgid "Select media to see a preview."
+msgstr ""
+
+msgid "This preview updates automatically when you change media, settings, or styling overrides."
+msgstr ""
+
+msgid "Show media in cards"
+msgstr ""
+
+msgid "Card image size"
+msgstr ""
+
+msgid "Only applies to the card slider layout. Use Styling to control aspect ratio / height."
+msgstr ""
+
+msgid "Card media aspect ratio"
+msgstr ""
+
+msgid "Card media fit"
+msgstr ""
+
+msgid "Card media max height"
 msgstr ""

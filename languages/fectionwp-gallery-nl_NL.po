@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: FectionWP Gallery 1.0.3\n"
+"Project-Id-Version: FectionWP Gallery 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-14 00:00+0000\n"
 "PO-Revision-Date: 2026-01-14 00:00+0000\n"
@@ -359,3 +359,42 @@ msgstr "Maak eerst een galerij en bekijk hem daarna hier."
 
 msgid "Tip: this preview uses the same shortcode renderer as the frontend. Styling is controlled via Fection Gallery → Styling and per-gallery overrides."
 msgstr "Tip: deze preview gebruikt dezelfde shortcode-renderer als de frontend. Styling wordt beheerd via Fection Gallery → Styling en per-galerij overschrijvingen."
+
+msgid "Live preview"
+msgstr "Live voorbeeld"
+
+msgid "Refresh"
+msgstr "Verversen"
+
+msgid "Interval (ms)"
+msgstr "Interval (ms)"
+
+msgid "Loading preview…"
+msgstr "Voorbeeld laden…"
+
+msgid "Could not render preview."
+msgstr "Kon voorbeeld niet tonen."
+
+msgid "Select media to see a preview."
+msgstr "Selecteer media om een voorbeeld te zien."
+
+msgid "This preview updates automatically when you change media, settings, or styling overrides."
+msgstr "Dit voorbeeld wordt automatisch bijgewerkt wanneer je media, instellingen of styling-overschrijvingen wijzigt."
+
+msgid "Show media in cards"
+msgstr "Media tonen in kaarten"
+
+msgid "Card image size"
+msgstr "Kaart-afbeeldingsgrootte"
+
+msgid "Only applies to the card slider layout. Use Styling to control aspect ratio / height."
+msgstr "Alleen van toepassing op de kaart-slider lay-out. Gebruik Styling om aspect ratio / hoogte te regelen."
+
+msgid "Card media aspect ratio"
+msgstr "Kaart-media aspect ratio"
+
+msgid "Card media fit"
+msgstr "Kaart-media passend maken"
+
+msgid "Card media max height"
+msgstr "Kaart-media maximale hoogte"

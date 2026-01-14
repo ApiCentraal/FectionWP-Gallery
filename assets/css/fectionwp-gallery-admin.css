@@ -5,13 +5,73 @@
   margin-top: 10px;
 }
 
+.fection-gallery-admin .fg-builder-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin: 0 0 10px 0;
+}
+
+.fection-gallery-admin .fg-builder-buttons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.fection-gallery-admin .fg-media-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid #c3c4c7;
+  background: #fff;
+  color: #1d2327;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.fection-gallery-admin .fg-empty {
+  grid-column: 1 / -1;
+  padding: 14px;
+  border: 1px dashed #c3c4c7;
+  border-radius: 10px;
+  background: #f6f7f7;
+  color: #50575e;
+}
+
 .fection-gallery-admin .fg-thumb {
   border: 1px solid #c3c4c7;
   border-radius: 8px;
   overflow: hidden;
   background: #fff;
   position: relative;
+  cursor: default;
+}
+
+.fection-gallery-admin .fg-thumb-handle {
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  border: 1px solid rgba(195, 196, 199, 0.85);
+  background: rgba(255, 255, 255, 0.92);
+  color: #1d2327;
   cursor: move;
+}
+
+.fection-gallery-admin .fg-thumb-handle .dashicons {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
 }
 
 .fection-gallery-admin .fg-thumb img {
@@ -33,6 +93,17 @@
   background: rgba(255, 255, 255, 0.92);
   border: 1px solid #c3c4c7;
   border-radius: 6px;
+  opacity: 0;
+  transform: translateY(6px);
+  pointer-events: none;
+  transition: opacity 120ms ease, transform 120ms ease;
+}
+
+.fection-gallery-admin .fg-thumb:hover .fg-thumb-actions,
+.fection-gallery-admin .fg-thumb:focus-within .fg-thumb-actions {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .fection-gallery-admin .fg-thumb-actions a,
@@ -54,6 +125,115 @@
   grid-template-columns: 1fr;
   gap: 10px;
   margin-top: 10px;
+}
+
+/* Styling page */
+.fg-styling-top {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  max-width: 1100px;
+  margin: 12px 0;
+}
+
+.fg-styling-filter,
+.fg-styling-presets {
+  padding: 12px;
+  background: #fff;
+  border: 1px solid #c3c4c7;
+  border-radius: 10px;
+}
+
+.fg-styling-filter label {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.fg-styling-no-results {
+  margin-top: 8px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #fed7aa;
+  background: #fff7ed;
+  color: #9a3412;
+}
+
+.fg-styling-presets-title {
+  margin-bottom: 8px;
+}
+
+.fg-styling-presets-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.fg-styling-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.fg-styling-nav {
+  position: sticky;
+  top: 32px;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #c3c4c7;
+  border-radius: 10px;
+}
+
+.fg-style-nav-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #1d2327;
+  cursor: pointer;
+}
+
+.fg-style-nav-btn:hover {
+  background: #f6f7f7;
+}
+
+.fg-style-nav-btn.is-active {
+  background: #f0f6fc;
+  border-color: rgba(9, 105, 218, 0.35);
+}
+
+.fg-style-nav-btn.is-disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.fg-styling-main {
+  max-width: 1100px;
+}
+
+.fg-style-section {
+  background: #fff;
+  border: 1px solid #c3c4c7;
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 14px;
+}
+
+.fg-style-section > h2 {
+  margin-top: 0;
+}
+
+@media (max-width: 1200px) {
+  .fg-styling-layout {
+    grid-template-columns: 1fr;
+  }
+  .fg-styling-nav {
+    position: static;
+  }
 }
 
 .fection-gallery-admin .fg-builder-grid {
@@ -87,6 +267,13 @@
   align-items: center;
   flex-wrap: wrap;
   margin-bottom: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding: 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(195, 196, 199, 0.6);
 }
 
 .fection-gallery-admin .fg-live-preview-output {
@@ -95,6 +282,11 @@
   border: 1px solid rgba(195, 196, 199, 0.8);
   border-radius: 8px;
   padding: 12px;
+  background: #f6f7f7;
+}
+
+.fection-gallery-admin .fg-live-preview-output.is-loading {
+  opacity: 0.7;
 }
 
 .fection-gallery-admin .fg-live-preview-status {

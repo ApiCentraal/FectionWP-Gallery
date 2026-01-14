@@ -2,8 +2,10 @@
   --fg-section-bg: transparent;
   --fg-section-border-color: transparent;
   --fg-section-border-w: 0;
-  --fg-section-radius: 1rem;
-  --fg-section-p: 1.25rem;
+  --fg-section-radius: 0;
+  --fg-section-p: 0;
+  --fg-section-m: 0;
+  --fg-section-shadow: none;
 
   --fg-radius: 1rem;
   --fg-shadow: 0 16px 40px rgba(15, 23, 42, 0.12);
@@ -73,10 +75,13 @@
 }
 
 .fectionwp-gallery .fg-section {
+  display: flow-root;
   background: var(--fg-section-bg);
   border: var(--fg-section-border-w) solid var(--fg-section-border-color);
   border-radius: var(--fg-section-radius);
   padding: var(--fg-section-p);
+  margin: var(--fg-section-m);
+  box-shadow: var(--fg-section-shadow);
 }
 
 .fectionwp-gallery .carousel,

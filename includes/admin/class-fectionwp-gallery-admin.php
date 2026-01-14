@@ -196,33 +196,46 @@ class FectionWP_Gallery_Admin
             'fg_nonce'
         );
         ?>
-        <div class="wrap">
+        <div class="wrap fg-styling-page" id="fg-styling-page">
             <h1><?php echo esc_html__('Fection Gallery Styling', 'fectionwp-gallery'); ?></h1>
 
-            <p style="max-width: 900px;">
-                <label for="fg-style-filter"><strong><?php echo esc_html__('Filter settings', 'fectionwp-gallery'); ?></strong></label><br />
-                <input id="fg-style-filter" class="regular-text" type="text" placeholder="<?php echo esc_attr__('Type to filter (e.g. button, caption, radius)…', 'fectionwp-gallery'); ?>" />
-            </p>
+            <div class="fg-styling-top">
+                <div class="fg-styling-filter">
+                    <label for="fg-style-filter"><strong><?php echo esc_html__('Filter settings', 'fectionwp-gallery'); ?></strong></label>
+                    <input id="fg-style-filter" class="regular-text" type="text" placeholder="<?php echo esc_attr__('Type to filter (e.g. button, caption, radius)…', 'fectionwp-gallery'); ?>" />
+                    <div class="fg-styling-no-results" id="fg-styling-no-results" aria-live="polite" hidden>
+                        <?php echo esc_html__('No matching settings found.', 'fectionwp-gallery'); ?>
+                    </div>
+                </div>
 
-            <div style="margin: 12px 0; padding: 12px; background: #fff; border: 1px solid #c3c4c7; border-radius: 8px;">
-                <strong style="display:block; margin-bottom:8px;"><?php echo esc_html__('Presets', 'fectionwp-gallery'); ?></strong>
-                <a class="button" href="<?php echo esc_url($white_url); ?>"><?php echo esc_html__('Apply White', 'fectionwp-gallery'); ?></a>
-                <a class="button" href="<?php echo esc_url($black_url); ?>"><?php echo esc_html__('Apply Black', 'fectionwp-gallery'); ?></a>
-                <a class="button button-primary" href="<?php echo esc_url($business_url); ?>"><?php echo esc_html__('Apply Business', 'fectionwp-gallery'); ?></a>
-                <span class="description" style="margin-left:10px;"><?php echo esc_html__('Applies to global styling (all galleries).', 'fectionwp-gallery'); ?></span>
+                <div class="fg-styling-presets">
+                    <div class="fg-styling-presets-title"><strong><?php echo esc_html__('Presets', 'fectionwp-gallery'); ?></strong></div>
+                    <div class="fg-styling-presets-actions">
+                        <a class="button" href="<?php echo esc_url($white_url); ?>"><?php echo esc_html__('Apply White', 'fectionwp-gallery'); ?></a>
+                        <a class="button" href="<?php echo esc_url($black_url); ?>"><?php echo esc_html__('Apply Black', 'fectionwp-gallery'); ?></a>
+                        <a class="button button-primary" href="<?php echo esc_url($business_url); ?>"><?php echo esc_html__('Apply Business', 'fectionwp-gallery'); ?></a>
+                        <span class="description"><?php echo esc_html__('Applies to global styling (all galleries).', 'fectionwp-gallery'); ?></span>
+                    </div>
+                </div>
             </div>
 
-            <form method="post" action="options.php">
-                <?php
-                settings_fields('fectionwp_gallery_styling');
-                do_settings_sections('fectionwp-gallery-styling');
-                submit_button();
-                ?>
-            </form>
+            <div class="fg-styling-layout">
+                <div class="fg-styling-nav" id="fg-style-nav"></div>
+                <div class="fg-styling-main">
 
-            <p class="description">
-                <?php echo esc_html__('Tip: you can paste CSS values (e.g. 1rem, rgba(...), 16/9). Most fields are CSS variables mapped onto Bootstrap 5.3 components.', 'fectionwp-gallery'); ?>
-            </p>
+                    <form method="post" action="options.php">
+                        <?php
+                        settings_fields('fectionwp_gallery_styling');
+                        do_settings_sections('fectionwp-gallery-styling');
+                        submit_button();
+                        ?>
+                    </form>
+
+                    <p class="description">
+                        <?php echo esc_html__('Tip: you can paste CSS values (e.g. 1rem, rgba(...), 16/9). Most fields are CSS variables mapped onto Bootstrap 5.3 components.', 'fectionwp-gallery'); ?>
+                    </p>
+                </div>
+            </div>
         </div>
         <?php
     }
@@ -496,6 +509,8 @@ class FectionWP_Gallery_Admin
             'section_border_w' => ['label' => __('Section border width', 'fectionwp-gallery'), 'default' => '0', 'type' => 'length', 'var' => '--fg-section-border-w', 'section' => 'general'],
             'section_radius' => ['label' => __('Section radius', 'fectionwp-gallery'), 'default' => '0', 'type' => 'length', 'var' => '--fg-section-radius', 'section' => 'general'],
             'section_p' => ['label' => __('Section padding', 'fectionwp-gallery'), 'default' => '0', 'type' => 'text', 'var' => '--fg-section-p', 'section' => 'general'],
+            'section_m' => ['label' => __('Section margin', 'fectionwp-gallery'), 'default' => '0', 'type' => 'text', 'var' => '--fg-section-m', 'section' => 'general'],
+            'section_shadow' => ['label' => __('Section shadow', 'fectionwp-gallery'), 'default' => 'none', 'type' => 'shadow', 'var' => '--fg-section-shadow', 'section' => 'general'],
 
             'radius' => ['label' => __('Border radius', 'fectionwp-gallery'), 'default' => '1rem', 'type' => 'length', 'var' => '--fg-radius', 'section' => 'general'],
             'shadow' => ['label' => __('Shadow', 'fectionwp-gallery'), 'default' => '0 16px 40px rgba(15, 23, 42, 0.12)', 'type' => 'shadow', 'var' => '--fg-shadow', 'section' => 'general'],
@@ -692,6 +707,10 @@ class FectionWP_Gallery_Admin
                 FECTIONWPGALLERY_VERSION,
                 true
             );
+
+            wp_localize_script('fectionwp-gallery-admin-styling', 'FectionGalleryStyling', [
+                'all' => __('All', 'fectionwp-gallery'),
+            ]);
         }
 
         if ($is_gallery_post) {
@@ -716,6 +735,8 @@ class FectionWP_Gallery_Admin
                 'frameButton' => __('Use selected', 'fectionwp-gallery'),
                 'remove' => __('Remove', 'fectionwp-gallery'),
                 'openInLibrary' => __('Open in Media Library', 'fectionwp-gallery'),
+                'empty' => __('No media selected yet.', 'fectionwp-gallery'),
+                'selected' => __('Selected:', 'fectionwp-gallery'),
             ]);
 
             wp_localize_script('fectionwp-gallery-admin-live-preview', 'FectionGalleryLivePreview', [
@@ -759,20 +780,30 @@ class FectionWP_Gallery_Admin
         <div class="fection-gallery-admin">
             <div class="fg-builder-grid">
                 <div class="fg-builder-left">
-                    <p>
-                        <button type="button" class="button button-primary" id="fg-pick-media"><?php echo esc_html__('Choose media', 'fectionwp-gallery'); ?></button>
-                        <button type="button" class="button" id="fg-clear-media"><?php echo esc_html__('Clear', 'fectionwp-gallery'); ?></button>
-                        <a class="button" href="<?php echo esc_url($media_library_url); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Open Media Library', 'fectionwp-gallery'); ?></a>
-                    </p>
+                    <div class="fg-builder-actions">
+                        <div class="fg-builder-buttons">
+                            <button type="button" class="button button-primary" id="fg-pick-media"><?php echo esc_html__('Choose media', 'fectionwp-gallery'); ?></button>
+                            <button type="button" class="button" id="fg-clear-media"><?php echo esc_html__('Clear', 'fectionwp-gallery'); ?></button>
+                            <a class="button" href="<?php echo esc_url($media_library_url); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Open Media Library', 'fectionwp-gallery'); ?></a>
+                        </div>
+                        <div class="fg-builder-meta">
+                            <span class="fg-media-count" id="fg-media-count" aria-live="polite"></span>
+                        </div>
+                    </div>
 
                     <input type="hidden" id="fg-media-ids" name="fg_media_ids" value="<?php echo esc_attr($ids_csv); ?>" />
 
                     <div id="fg-media-preview" class="fg-media-preview">
+                        <?php if (!$meta['media_ids']) : ?>
+                            <div class="fg-empty"><?php echo esc_html__('No media selected yet.', 'fectionwp-gallery'); ?></div>
+                        <?php endif; ?>
                         <?php foreach ($meta['media_ids'] as $aid) :
                             $thumb = wp_get_attachment_image($aid, 'thumbnail');
                             $edit_link = get_edit_post_link($aid, '');
                             if ($thumb) {
-                                echo '<div class="fg-thumb" data-id="' . esc_attr((string) $aid) . '">' . $thumb; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                echo '<div class="fg-thumb" data-id="' . esc_attr((string) $aid) . '">';
+                                echo '<div class="fg-thumb-handle" aria-hidden="true"><span class="dashicons dashicons-move"></span></div>';
+                                echo $thumb; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                 echo '<div class="fg-thumb-actions">';
                                 if ($edit_link) {
                                     echo '<a href="' . esc_url($edit_link) . '" target="_blank" rel="noopener noreferrer">' . esc_html__('Open in Media Library', 'fectionwp-gallery') . '</a>';
@@ -844,6 +875,8 @@ class FectionWP_Gallery_Admin
         <p>
             <label for="fg_header_text"><strong><?php echo esc_html__('Header text (optional)', 'fectionwp-gallery'); ?></strong></label>
             <input class="widefat" type="text" id="fg_header_text" name="fg_header_text" value="<?php echo esc_attr($meta['header_text']); ?>" />
+                    $o['section_m'] = '1rem 0';
+                    $o['section_shadow'] = '0 14px 40px rgba(15, 23, 42, 0.06)';
         </p>
         <p>
             <label>

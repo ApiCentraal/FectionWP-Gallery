@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: FectionWP Gallery 1.0.5\n"
+"Project-Id-Version: FectionWP Gallery 1.0.7\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-14 00:00+0000\n"
 "PO-Revision-Date: 2026-01-14 00:00+0000\n"
@@ -13,6 +13,9 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Add New"
+msgstr ""
+
+msgid "All"
 msgstr ""
 
 msgid "Add New Gallery"
@@ -46,6 +49,12 @@ msgid "Section radius"
 msgstr ""
 
 msgid "Section padding"
+msgstr ""
+
+msgid "Section margin"
+msgstr ""
+
+msgid "Section shadow"
 msgstr ""
 
 msgid "Apply White"
@@ -351,6 +360,12 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
+msgid "No media selected yet."
+msgstr ""
+
+msgid "Selected:"
+msgstr ""
+
 msgid "Tip: drag thumbnails to reorder. Click “Remove” to exclude an item (save the gallery to apply)."
 msgstr ""
 
@@ -358,6 +373,9 @@ msgid "Filter settings"
 msgstr ""
 
 msgid "Type to filter (e.g. button, caption, radius)…"
+msgstr ""
+
+msgid "No matching settings found."
 msgstr ""
 
 msgid "Preview"

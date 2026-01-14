@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: FectionWP Gallery 1.0.6\n"
+"Project-Id-Version: FectionWP Gallery 1.0.7\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-14 00:00+0000\n"
 "PO-Revision-Date: 2026-01-14 00:00+0000\n"
@@ -14,6 +14,9 @@ msgstr ""
 
 msgid "Add New"
 msgstr "Nieuwe toevoegen"
+
+msgid "All"
+msgstr "Alles"
 
 msgid "Add New Gallery"
 msgstr "Nieuwe galerij toevoegen"
@@ -47,6 +50,12 @@ msgstr "Sectie afronding"
 
 msgid "Section padding"
 msgstr "Sectie padding"
+
+msgid "Section margin"
+msgstr "Sectie marge"
+
+msgid "Section shadow"
+msgstr "Sectie schaduw"
 
 msgid "Apply White"
 msgstr "Wit toepassen"
@@ -351,6 +360,12 @@ msgstr "Openen in mediabibliotheek"
 msgid "Remove"
 msgstr "Verwijderen"
 
+msgid "No media selected yet."
+msgstr "Nog geen media geselecteerd."
+
+msgid "Selected:"
+msgstr "Geselecteerd:"
+
 msgid "Tip: drag thumbnails to reorder. Click “Remove” to exclude an item (save the gallery to apply)."
 msgstr "Tip: sleep thumbnails om te herschikken. Klik op “Verwijderen” om een item uit te sluiten (sla de galerij op om toe te passen)."
 
@@ -359,6 +374,9 @@ msgstr "Instellingen filteren"
 
 msgid "Type to filter (e.g. button, caption, radius)…"
 msgstr "Typ om te filteren (bijv. knop, caption, radius)…"
+
+msgid "No matching settings found."
+msgstr "Geen overeenkomende instellingen gevonden."
 
 msgid "Preview"
 msgstr "Voorbeeld"

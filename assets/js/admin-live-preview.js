@@ -74,6 +74,7 @@
     };
 
     setStatus((FectionGalleryLivePreview && FectionGalleryLivePreview.loading) || 'Loading preview…');
+    $('#fg-live-preview-output').addClass('is-loading');
 
     $.post(ajaxurl, payload)
       .done(function (res) {
@@ -83,9 +84,11 @@
         } else {
           setStatus((FectionGalleryLivePreview && FectionGalleryLivePreview.error) || 'Could not render preview.');
         }
+        $('#fg-live-preview-output').removeClass('is-loading');
       })
       .fail(function () {
         setStatus((FectionGalleryLivePreview && FectionGalleryLivePreview.error) || 'Could not render preview.');
+        $('#fg-live-preview-output').removeClass('is-loading');
       });
   }
 

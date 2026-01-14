@@ -36,6 +36,15 @@ class FectionWP_Gallery_Admin
 
         add_submenu_page(
             'fectionwp-gallery',
+            __('Preview', 'fectionwp-gallery'),
+            __('Preview', 'fectionwp-gallery'),
+            'edit_posts',
+            'fectionwp-gallery-preview',
+            [$this, 'render_previewer_page']
+        );
+
+        add_submenu_page(
+            'fectionwp-gallery',
             __('Styling', 'fectionwp-gallery'),
             __('Styling', 'fectionwp-gallery'),
             'manage_options',
@@ -67,6 +76,117 @@ class FectionWP_Gallery_Admin
             <h2><?php echo esc_html__('Shortcode', 'fectionwp-gallery'); ?></h2>
             <p><code>[fection_gallery id="123"]</code></p>
             <p><code>[fection_gallery id="123" layout="cards" cards_per_slide="3" header="Mijn header" footer_button="1"]</code></p>
+        </div>
+        <?php
+    }
+
+    public function render_previewer_page(): void
+    {
+        if (!current_user_can('edit_posts')) {
+            return;
+        }
+
+        $selected_id = isset($_GET['gallery_id']) ? absint($_GET['gallery_id']) : 0;
+        $layout = isset($_GET['layout']) ? sanitize_key((string) $_GET['layout']) : '';
+        $cards_per_slide = isset($_GET['cards_per_slide']) ? max(1, min(6, absint($_GET['cards_per_slide']))) : 3;
+        $autoplay = isset($_GET['autoplay']) ? (int) (bool) absint($_GET['autoplay']) : 0;
+
+        if (!in_array($layout, ['', 'carousel', 'cards'], true)) {
+            $layout = '';
+        }
+
+        $galleries = get_posts([
+            'post_type' => FectionWP_Gallery_CPT::POST_TYPE,
+            'post_status' => 'any',
+            'numberposts' => 200,
+            'orderby' => 'date',
+            'order' => 'DESC',
+        ]);
+
+        if ($selected_id === 0 && !empty($galleries) && isset($galleries[0]->ID)) {
+            $selected_id = (int) $galleries[0]->ID;
+        }
+
+        $action_url = admin_url('admin.php');
+        ?>
+        <div class="wrap">
+            <h1><?php echo esc_html__('Gallery preview', 'fectionwp-gallery'); ?></h1>
+
+            <form method="get" action="<?php echo esc_url($action_url); ?>" style="margin: 12px 0;">
+                <input type="hidden" name="page" value="fectionwp-gallery-preview" />
+
+                <div style="display:flex; flex-wrap:wrap; gap:12px; align-items:flex-end;">
+                    <p style="margin:0; min-width: 320px;">
+                        <label for="fg_preview_gallery"><strong><?php echo esc_html__('Select a gallery', 'fectionwp-gallery'); ?></strong></label><br />
+                        <select class="regular-text" id="fg_preview_gallery" name="gallery_id">
+                            <?php if (empty($galleries)) : ?>
+                                <option value="0"><?php echo esc_html__('No galleries found', 'fectionwp-gallery'); ?></option>
+                            <?php else : ?>
+                                <?php foreach ($galleries as $gallery_post) : ?>
+                                    <option value="<?php echo esc_attr((string) $gallery_post->ID); ?>" <?php selected($selected_id, (int) $gallery_post->ID); ?>>
+                                        <?php
+                                        $title = get_the_title($gallery_post);
+                                        echo esc_html(($title !== '' ? $title : __('(no title)', 'fectionwp-gallery')) . ' (#' . (int) $gallery_post->ID . ')');
+                                        ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </select>
+                    </p>
+
+                    <p style="margin:0;">
+                        <label for="fg_preview_layout"><strong><?php echo esc_html__('Layout', 'fectionwp-gallery'); ?></strong></label><br />
+                        <select id="fg_preview_layout" name="layout">
+                            <option value="" <?php selected($layout, ''); ?>><?php echo esc_html__('Use gallery setting', 'fectionwp-gallery'); ?></option>
+                            <option value="carousel" <?php selected($layout, 'carousel'); ?>><?php echo esc_html__('Carousel', 'fectionwp-gallery'); ?></option>
+                            <option value="cards" <?php selected($layout, 'cards'); ?>><?php echo esc_html__('Card slider', 'fectionwp-gallery'); ?></option>
+                        </select>
+                    </p>
+
+                    <p style="margin:0;">
+                        <label for="fg_preview_cards"><strong><?php echo esc_html__('Cards per slide', 'fectionwp-gallery'); ?></strong></label><br />
+                        <input id="fg_preview_cards" name="cards_per_slide" type="number" min="1" max="6" value="<?php echo esc_attr((string) $cards_per_slide); ?>" style="width: 90px;" />
+                    </p>
+
+                    <p style="margin:0;">
+                        <label>
+                            <input type="checkbox" name="autoplay" value="1" <?php checked($autoplay === 1); ?> />
+                            <strong><?php echo esc_html__('Autoplay', 'fectionwp-gallery'); ?></strong>
+                        </label>
+                    </p>
+
+                    <p style="margin:0;">
+                        <button type="submit" class="button button-primary"><?php echo esc_html__('Preview', 'fectionwp-gallery'); ?></button>
+                    </p>
+                </div>
+            </form>
+
+            <?php if (empty($galleries)) : ?>
+                <p>
+                    <?php
+                    $new_url = admin_url('post-new.php?post_type=' . FectionWP_Gallery_CPT::POST_TYPE);
+                    echo esc_html__('Create a gallery first, then preview it here.', 'fectionwp-gallery') . ' ';
+                    echo '<a class="button" href="' . esc_url($new_url) . '">' . esc_html__('Add New Gallery', 'fectionwp-gallery') . '</a>';
+                    ?>
+                </p>
+            <?php elseif ($selected_id > 0) : ?>
+                <div style="margin-top: 16px; padding: 16px; background: #fff; border: 1px solid #c3c4c7; border-radius: 8px;">
+                    <?php
+                    $shortcode = '[fection_gallery id="' . (int) $selected_id . '"';
+                    if ($layout !== '') {
+                        $shortcode .= ' layout="' . esc_attr($layout) . '"';
+                    }
+                    $shortcode .= ' cards_per_slide="' . (int) $cards_per_slide . '"';
+                    $shortcode .= ' autoplay="' . (int) $autoplay . '"';
+                    $shortcode .= ']';
+                    echo do_shortcode($shortcode); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                    ?>
+                </div>
+
+                <p class="description" style="margin-top:10px;">
+                    <?php echo esc_html__('Tip: this preview uses the same shortcode renderer as the frontend. Styling is controlled via Fection Gallery → Styling and per-gallery overrides.', 'fectionwp-gallery'); ?>
+                </p>
+            <?php endif; ?>
         </div>
         <?php
     }
@@ -545,6 +665,7 @@ class FectionWP_Gallery_Admin
         global $post;
         $is_gallery_post = $post && $post->post_type === FectionWP_Gallery_CPT::POST_TYPE;
         $is_plugin_page = strpos((string) $hook, 'fectionwp-gallery') !== false;
+        $is_preview_page = strpos((string) $hook, 'fectionwp-gallery-preview') !== false;
 
         if (!$is_gallery_post && !$is_plugin_page) {
             return;
@@ -560,6 +681,44 @@ class FectionWP_Gallery_Admin
             [],
             FECTIONWPGALLERY_VERSION
         );
+
+        if ($is_preview_page) {
+            // Ensure the preview renders like the frontend (Bootstrap + plugin CSS/JS).
+            wp_enqueue_style(
+                'bootstrap-5-3-local',
+                FECTIONWPGALLERY_URL . 'assets/vendor/bootstrap/bootstrap.min.css',
+                [],
+                '5.3.3'
+            );
+
+            wp_enqueue_script(
+                'bootstrap-5-3-local',
+                FECTIONWPGALLERY_URL . 'assets/vendor/bootstrap/bootstrap.bundle.min.js',
+                [],
+                '5.3.3',
+                true
+            );
+
+            wp_enqueue_style(
+                'fectionwp-gallery',
+                FECTIONWPGALLERY_URL . 'assets/css/fectionwp-gallery.css',
+                ['bootstrap-5-3-local'],
+                FECTIONWPGALLERY_VERSION
+            );
+
+            $inline_css = self::build_global_inline_css();
+            if ($inline_css !== '') {
+                wp_add_inline_style('fectionwp-gallery', $inline_css);
+            }
+
+            wp_enqueue_script(
+                'fectionwp-gallery',
+                FECTIONWPGALLERY_URL . 'assets/js/fectionwp-gallery.js',
+                ['bootstrap-5-3-local'],
+                FECTIONWPGALLERY_VERSION,
+                true
+            );
+        }
 
         if ($is_gallery_post) {
             wp_enqueue_script(

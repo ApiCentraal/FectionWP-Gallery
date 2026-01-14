@@ -47,20 +47,45 @@ class FectionWP_Gallery
 
     public function enqueue_public_assets(): void
     {
-        // Allow themes to disable bootstrap CDN if they already load it.
-        $load_bootstrap = apply_filters('fectionwp_gallery_load_bootstrap', true);
+        // For WP.org submission: default to local Bootstrap files.
+        // Override with filter: 'local' (default), 'cdn', or 'none'.
+        $bootstrap_source = (string) apply_filters('fectionwp_gallery_bootstrap_source', 'local');
 
-        if ($load_bootstrap) {
+        $bootstrap_style_handle = null;
+        $bootstrap_script_handle = null;
+
+        if ($bootstrap_source === 'cdn') {
+            $bootstrap_style_handle = 'bootstrap-5-3';
+            $bootstrap_script_handle = 'bootstrap-5-3';
+
             wp_enqueue_style(
-                'bootstrap-5-3',
+                $bootstrap_style_handle,
                 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css',
                 [],
                 '5.3.3'
             );
 
             wp_enqueue_script(
-                'bootstrap-5-3',
+                $bootstrap_script_handle,
                 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js',
+                [],
+                '5.3.3',
+                true
+            );
+        } elseif ($bootstrap_source === 'local') {
+            $bootstrap_style_handle = 'bootstrap-5-3-local';
+            $bootstrap_script_handle = 'bootstrap-5-3-local';
+
+            wp_enqueue_style(
+                $bootstrap_style_handle,
+                FECTIONWPGALLERY_URL . 'assets/vendor/bootstrap/bootstrap.min.css',
+                [],
+                '5.3.3'
+            );
+
+            wp_enqueue_script(
+                $bootstrap_script_handle,
+                FECTIONWPGALLERY_URL . 'assets/vendor/bootstrap/bootstrap.bundle.min.js',
                 [],
                 '5.3.3',
                 true
@@ -70,7 +95,7 @@ class FectionWP_Gallery
         wp_enqueue_style(
             'fectionwp-gallery',
             FECTIONWPGALLERY_URL . 'assets/css/fectionwp-gallery.css',
-            $load_bootstrap ? ['bootstrap-5-3'] : [],
+            $bootstrap_style_handle ? [$bootstrap_style_handle] : [],
             FECTIONWPGALLERY_VERSION
         );
 
@@ -82,7 +107,7 @@ class FectionWP_Gallery
         wp_enqueue_script(
             'fectionwp-gallery',
             FECTIONWPGALLERY_URL . 'assets/js/fectionwp-gallery.js',
-            $load_bootstrap ? ['bootstrap-5-3'] : [],
+            $bootstrap_script_handle ? [$bootstrap_script_handle] : [],
             FECTIONWPGALLERY_VERSION,
             true
         );

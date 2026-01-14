@@ -4,7 +4,7 @@ Tags: gallery, slider, carousel, bootstrap, video
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,6 +51,10 @@ By default the plugin uses bundled Bootstrap 5.3.3 files (recommended for WordPr
 No. Uninstall removes plugin options and known meta keys, but keeps the gallery posts.
 
 == Changelog ==
+
+= 1.0.3 =
+* Improve: gallery builder now supports drag & drop ordering and quick actions.
+* Improve: styling page adds color picker + filter.
 
 = 1.0.2 =
 * Add: Gallery Preview admin page (preview a gallery in a slider from the plugin menu).

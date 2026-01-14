@@ -15,14 +15,66 @@
     attachments.forEach((att) => {
       const thumb = att.sizes && (att.sizes.thumbnail || att.sizes.medium);
       const url = thumb ? thumb.url : att.icon;
+
       const $item = $('<div class="fg-thumb" />');
+      $item.attr('data-id', String(att.id));
       $item.append($('<img />', { src: url, alt: att.alt || '' }));
+
+      const editUrl = att.editLink || (att.id ? 'post.php?post=' + String(att.id) + '&action=edit' : '');
+      const $actions = $('<div class="fg-thumb-actions" />');
+      if (editUrl) {
+        $actions.append(
+          $('<a />', {
+            href: editUrl,
+            target: '_blank',
+            rel: 'noopener noreferrer',
+            text: (FectionGalleryAdmin && FectionGalleryAdmin.openInLibrary) || 'Open in Media Library'
+          })
+        );
+      }
+      $actions.append(
+        $('<button />', {
+          type: 'button',
+          class: 'button-link fg-remove-media',
+          'data-id': String(att.id),
+          text: (FectionGalleryAdmin && FectionGalleryAdmin.remove) || 'Remove'
+        })
+      );
+
+      $item.append($actions);
       $preview.append($item);
     });
   }
 
+  function updateIdsFromPreview() {
+    const ids = [];
+    $('#fg-media-preview .fg-thumb').each(function () {
+      const id = parseInt($(this).attr('data-id'), 10);
+      if (Number.isFinite(id) && id > 0) ids.push(id);
+    });
+    $('#fg-media-ids').val(ids.join(','));
+  }
+
   $(function () {
     const $ids = $('#fg-media-ids');
+
+    const $preview = $('#fg-media-preview');
+    if ($preview.length && $preview.sortable) {
+      $preview.sortable({
+        items: '.fg-thumb',
+        tolerance: 'pointer',
+        update: function () {
+          updateIdsFromPreview();
+        }
+      });
+    }
+
+    $(document).on('click', '.fg-remove-media', function (e) {
+      e.preventDefault();
+      const $item = $(this).closest('.fg-thumb');
+      $item.remove();
+      updateIdsFromPreview();
+    });
 
     $('#fg-clear-media').on('click', function () {
       $ids.val('');
@@ -55,7 +107,9 @@
 
         selection.each(function (model) {
           ids.push(model.get('id'));
-          atts.push(model.toJSON());
+          const json = model.toJSON();
+          json.editLink = model.get('editLink');
+          atts.push(json);
         });
 
         $ids.val(ids.join(','));

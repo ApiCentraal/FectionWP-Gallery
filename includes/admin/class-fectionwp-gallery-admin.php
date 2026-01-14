@@ -238,6 +238,9 @@ class FectionWP_Gallery_Admin
                     $options = self::get_style_options();
                     $name = self::OPTION_STYLE . '[' . $key . ']';
                     $value = isset($options[$key]) ? (string) $options[$key] : '';
+                    $schema = self::get_style_schema();
+                    $def = isset($schema[$key]) && is_array($schema[$key]) ? $schema[$key] : [];
+                    $default = isset($def['default']) ? (string) $def['default'] : '';
 
                     if ($type === 'select') {
                         echo '<select class="regular-text" name="' . esc_attr($name) . '">';
@@ -245,6 +248,16 @@ class FectionWP_Gallery_Admin
                             echo '<option value="' . esc_attr((string) $choice_value) . '"' . selected($value, (string) $choice_value, false) . '>' . esc_html((string) $choice_label) . '</option>';
                         }
                         echo '</select>';
+                        return;
+                    }
+
+                    if ($type === 'color') {
+                        printf(
+                            '<input class="regular-text fg-color-field" type="text" name="%s" value="%s" data-default-color="%s">',
+                            esc_attr($name),
+                            esc_attr($value),
+                            esc_attr($default)
+                        );
                         return;
                     }
 
@@ -294,6 +307,11 @@ class FectionWP_Gallery_Admin
         ?>
         <div class="wrap">
             <h1><?php echo esc_html__('Fection Gallery Styling', 'fectionwp-gallery'); ?></h1>
+
+            <p style="max-width: 900px;">
+                <label for="fg-style-filter"><strong><?php echo esc_html__('Filter settings', 'fectionwp-gallery'); ?></strong></label><br />
+                <input id="fg-style-filter" class="regular-text" type="text" placeholder="<?php echo esc_attr__('Type to filter (e.g. button, caption, radius)…', 'fectionwp-gallery'); ?>" />
+            </p>
 
             <div style="margin: 12px 0; padding: 12px; background: #fff; border: 1px solid #c3c4c7; border-radius: 8px;">
                 <strong style="display:block; margin-bottom:8px;"><?php echo esc_html__('Presets', 'fectionwp-gallery'); ?></strong>
@@ -682,6 +700,17 @@ class FectionWP_Gallery_Admin
             FECTIONWPGALLERY_VERSION
         );
 
+        if ($is_gallery_post || $is_plugin_page) {
+            wp_enqueue_style('wp-color-picker');
+            wp_enqueue_script(
+                'fectionwp-gallery-admin-styling',
+                FECTIONWPGALLERY_URL . 'assets/js/admin-styling.js',
+                ['jquery', 'wp-color-picker'],
+                FECTIONWPGALLERY_VERSION,
+                true
+            );
+        }
+
         if ($is_preview_page) {
             // Ensure the preview renders like the frontend (Bootstrap + plugin CSS/JS).
             wp_enqueue_style(
@@ -724,7 +753,7 @@ class FectionWP_Gallery_Admin
             wp_enqueue_script(
                 'fectionwp-gallery-admin',
                 FECTIONWPGALLERY_URL . 'assets/js/admin-media.js',
-                ['jquery'],
+                ['jquery', 'jquery-ui-sortable'],
                 FECTIONWPGALLERY_VERSION,
                 true
             );
@@ -732,6 +761,8 @@ class FectionWP_Gallery_Admin
             wp_localize_script('fectionwp-gallery-admin', 'FectionGalleryAdmin', [
                 'frameTitle' => __('Select media', 'fectionwp-gallery'),
                 'frameButton' => __('Use selected', 'fectionwp-gallery'),
+                'remove' => __('Remove', 'fectionwp-gallery'),
+                'openInLibrary' => __('Open in Media Library', 'fectionwp-gallery'),
             ]);
         }
     }
@@ -763,11 +794,13 @@ class FectionWP_Gallery_Admin
 
         $meta = self::get_gallery_meta($post->ID);
         $ids_csv = implode(',', $meta['media_ids']);
+        $media_library_url = admin_url('upload.php?mode=list&post_mime_type=image');
         ?>
         <div class="fection-gallery-admin">
             <p>
                 <button type="button" class="button button-primary" id="fg-pick-media"><?php echo esc_html__('Choose media', 'fectionwp-gallery'); ?></button>
                 <button type="button" class="button" id="fg-clear-media"><?php echo esc_html__('Clear', 'fectionwp-gallery'); ?></button>
+                <a class="button" href="<?php echo esc_url($media_library_url); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Open Media Library', 'fectionwp-gallery'); ?></a>
             </p>
 
             <input type="hidden" id="fg-media-ids" name="fg_media_ids" value="<?php echo esc_attr($ids_csv); ?>" />
@@ -775,14 +808,24 @@ class FectionWP_Gallery_Admin
             <div id="fg-media-preview" class="fg-media-preview">
                 <?php foreach ($meta['media_ids'] as $aid) :
                     $thumb = wp_get_attachment_image($aid, 'thumbnail');
+                    $edit_link = get_edit_post_link($aid, '');
                     if ($thumb) {
-                        echo '<div class="fg-thumb">' . $thumb . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                        echo '<div class="fg-thumb" data-id="' . esc_attr((string) $aid) . '">' . $thumb; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                        echo '<div class="fg-thumb-actions">';
+                        if ($edit_link) {
+                            echo '<a href="' . esc_url($edit_link) . '" target="_blank" rel="noopener noreferrer">' . esc_html__('Open in Media Library', 'fectionwp-gallery') . '</a>';
+                        }
+                        echo '<button type="button" class="button-link fg-remove-media" data-id="' . esc_attr((string) $aid) . '">' . esc_html__('Remove', 'fectionwp-gallery') . '</button>';
+                        echo '</div>';
+                        echo '</div>';
                     }
                 endforeach; ?>
             </div>
 
             <p class="description">
                 <?php echo esc_html__('Tip: select images and videos from the Media Library. Order is preserved.', 'fectionwp-gallery'); ?>
+                <br />
+                <?php echo esc_html__('Tip: drag thumbnails to reorder. Click “Remove” to exclude an item (save the gallery to apply).', 'fectionwp-gallery'); ?>
             </p>
 
             <p>
@@ -836,6 +879,7 @@ class FectionWP_Gallery_Admin
                     $type = isset($def['type']) ? (string) $def['type'] : 'text';
                     $choices = isset($def['choices']) && is_array($def['choices']) ? $def['choices'] : [];
                     $value = isset($meta['style'][$key]) ? (string) $meta['style'][$key] : '';
+                    $default = isset($def['default']) ? (string) $def['default'] : '';
                     $field_id = 'fg_style_' . $key;
                     $name = 'fg_style[' . $key . ']';
                     ?>
@@ -849,7 +893,7 @@ class FectionWP_Gallery_Admin
                                 <?php endforeach; ?>
                             </select>
                         <?php else : ?>
-                            <input class="widefat" type="text" id="<?php echo esc_attr($field_id); ?>" name="<?php echo esc_attr($name); ?>" value="<?php echo esc_attr($value); ?>" placeholder="<?php echo esc_attr((string) ($def['default'] ?? '')); ?>" />
+                            <input class="widefat<?php echo $type === 'color' ? ' fg-color-field' : ''; ?>" type="text" id="<?php echo esc_attr($field_id); ?>" name="<?php echo esc_attr($name); ?>" value="<?php echo esc_attr($value); ?>" placeholder="<?php echo esc_attr($default); ?>"<?php echo $type === 'color' ? ' data-default-color="' . esc_attr($default) . '"' : ''; ?> />
                         <?php endif; ?>
                     </p>
                     <?php

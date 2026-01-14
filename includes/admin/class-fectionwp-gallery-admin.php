@@ -173,7 +173,9 @@ class FectionWP_Gallery_Admin
 
         $applied = isset($_GET['fg_preset_applied']) ? sanitize_key((string) $_GET['fg_preset_applied']) : '';
         if ($applied !== '') {
-            $label = $applied === 'white' ? __('White', 'fectionwp-gallery') : ($applied === 'black' ? __('Black', 'fectionwp-gallery') : $applied);
+            $label = $applied === 'white'
+                ? __('White', 'fectionwp-gallery')
+                : ($applied === 'black' ? __('Black', 'fectionwp-gallery') : ($applied === 'business' ? __('Business', 'fectionwp-gallery') : $applied));
             echo '<div class="notice notice-success is-dismissible"><p>' . esc_html(sprintf(__('Preset applied: %s', 'fectionwp-gallery'), $label)) . '</p></div>';
         }
 
@@ -184,6 +186,12 @@ class FectionWP_Gallery_Admin
         );
         $black_url = wp_nonce_url(
             admin_url('admin.php?page=fectionwp-gallery-styling&fg_preset=black'),
+            'fg_apply_preset',
+            'fg_nonce'
+        );
+
+        $business_url = wp_nonce_url(
+            admin_url('admin.php?page=fectionwp-gallery-styling&fg_preset=business'),
             'fg_apply_preset',
             'fg_nonce'
         );
@@ -200,6 +208,7 @@ class FectionWP_Gallery_Admin
                 <strong style="display:block; margin-bottom:8px;"><?php echo esc_html__('Presets', 'fectionwp-gallery'); ?></strong>
                 <a class="button" href="<?php echo esc_url($white_url); ?>"><?php echo esc_html__('Apply White', 'fectionwp-gallery'); ?></a>
                 <a class="button" href="<?php echo esc_url($black_url); ?>"><?php echo esc_html__('Apply Black', 'fectionwp-gallery'); ?></a>
+                <a class="button button-primary" href="<?php echo esc_url($business_url); ?>"><?php echo esc_html__('Apply Business', 'fectionwp-gallery'); ?></a>
                 <span class="description" style="margin-left:10px;"><?php echo esc_html__('Applies to global styling (all galleries).', 'fectionwp-gallery'); ?></span>
             </div>
 
@@ -234,7 +243,7 @@ class FectionWP_Gallery_Admin
         }
 
         $preset = sanitize_key((string) $_GET['fg_preset']);
-        if (!in_array($preset, ['white', 'black'], true)) {
+        if (!in_array($preset, ['white', 'black', 'business'], true)) {
             return;
         }
         if (!isset($_GET['fg_nonce']) || !wp_verify_nonce((string) $_GET['fg_nonce'], 'fg_apply_preset')) {
@@ -306,6 +315,49 @@ class FectionWP_Gallery_Admin
         $o['btn_hover_color'] = '#ffffff';
 
         $o['shadow'] = '0 18px 50px rgba(0, 0, 0, 0.45)';
+
+        if ($preset === 'black') {
+            return $o;
+        }
+
+        // business (professional light)
+        $o = $defaults;
+        $o['section_bg'] = '#f8fafc';
+        $o['section_border_color'] = 'rgba(15, 23, 42, 0.10)';
+        $o['section_border_w'] = '1px';
+        $o['section_radius'] = '1rem';
+        $o['section_p'] = '1.25rem';
+
+        $o['media_bg'] = '#f8fafc';
+        $o['caption_bg'] = 'rgba(255,255,255,0.92)';
+        $o['caption_color'] = '#0f172a';
+        $o['ind_bg'] = 'rgba(15, 23, 42, 0.22)';
+        $o['ind_active_bg'] = '#0f172a';
+        $o['ctrl_bg'] = 'rgba(255, 255, 255, 0.85)';
+
+        $o['card_bg'] = '#ffffff';
+        $o['card_border_color'] = 'rgba(15, 23, 42, 0.10)';
+        $o['card_border_w'] = '1px';
+        $o['card_body_color'] = '#111827';
+        $o['card_header_bg'] = '#f8fafc';
+        $o['card_header_color'] = '#111827';
+        $o['card_body_p'] = '1rem';
+
+        $o['radius'] = '0.75rem';
+        $o['shadow'] = '0 12px 30px rgba(15, 23, 42, 0.08)';
+        $o['gap'] = '1rem';
+
+        $o['btn_bg'] = '#0f172a';
+        $o['btn_color'] = '#ffffff';
+        $o['btn_border_color'] = '#0f172a';
+        $o['btn_hover_bg'] = '#111827';
+        $o['btn_hover_color'] = '#ffffff';
+
+        // Card media sizing defaults for a “business” card look.
+        $o['card_media_aspect'] = '4/3';
+        $o['card_media_fit'] = 'cover';
+        $o['card_media_max_h'] = '240px';
+
         return $o;
     }
 
@@ -439,6 +491,12 @@ class FectionWP_Gallery_Admin
     {
         return [
             // General
+            'section_bg' => ['label' => __('Section background', 'fectionwp-gallery'), 'default' => 'transparent', 'type' => 'color', 'var' => '--fg-section-bg', 'section' => 'general'],
+            'section_border_color' => ['label' => __('Section border color', 'fectionwp-gallery'), 'default' => 'transparent', 'type' => 'color', 'var' => '--fg-section-border-color', 'section' => 'general'],
+            'section_border_w' => ['label' => __('Section border width', 'fectionwp-gallery'), 'default' => '0', 'type' => 'length', 'var' => '--fg-section-border-w', 'section' => 'general'],
+            'section_radius' => ['label' => __('Section radius', 'fectionwp-gallery'), 'default' => '0', 'type' => 'length', 'var' => '--fg-section-radius', 'section' => 'general'],
+            'section_p' => ['label' => __('Section padding', 'fectionwp-gallery'), 'default' => '0', 'type' => 'text', 'var' => '--fg-section-p', 'section' => 'general'],
+
             'radius' => ['label' => __('Border radius', 'fectionwp-gallery'), 'default' => '1rem', 'type' => 'length', 'var' => '--fg-radius', 'section' => 'general'],
             'shadow' => ['label' => __('Shadow', 'fectionwp-gallery'), 'default' => '0 16px 40px rgba(15, 23, 42, 0.12)', 'type' => 'shadow', 'var' => '--fg-shadow', 'section' => 'general'],
             'gap' => ['label' => __('Gap (cards/grid)', 'fectionwp-gallery'), 'default' => '1rem', 'type' => 'length', 'var' => '--fg-gap', 'section' => 'general'],

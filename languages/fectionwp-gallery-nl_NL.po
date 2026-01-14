@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: FectionWP Gallery 1.0.5\n"
+"Project-Id-Version: FectionWP Gallery 1.0.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-14 00:00+0000\n"
 "PO-Revision-Date: 2026-01-14 00:00+0000\n"
@@ -26,6 +26,27 @@ msgstr "Past toe op globale styling (alle galerijen)."
 
 msgid "Apply Black"
 msgstr "Zwart toepassen"
+
+msgid "Apply Business"
+msgstr "Zakelijk toepassen"
+
+msgid "Business"
+msgstr "Zakelijk"
+
+msgid "Section background"
+msgstr "Sectie achtergrond"
+
+msgid "Section border color"
+msgstr "Sectie randkleur"
+
+msgid "Section border width"
+msgstr "Sectie randdikte"
+
+msgid "Section radius"
+msgstr "Sectie afronding"
+
+msgid "Section padding"
+msgstr "Sectie padding"
 
 msgid "Apply White"
 msgstr "Wit toepassen"

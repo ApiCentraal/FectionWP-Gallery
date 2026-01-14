@@ -144,14 +144,15 @@ class FectionWP_Gallery_Shortcode
         ob_start();
         ?>
         <div class="fectionwp-gallery" id="<?php echo esc_attr($gallery_dom_id); ?>_wrap"<?php echo $style_attr; ?>>
-            <div class="container-fluid p-0">
-                <?php if ($header !== '') : ?>
-                    <div class="mb-3">
-                        <h3 class="fg-title"><?php echo esc_html($header); ?></h3>
-                    </div>
-                <?php endif; ?>
+            <div class="fg-section">
+                <div class="container-fluid p-0">
+                    <?php if ($header !== '') : ?>
+                        <div class="mb-3">
+                            <h3 class="fg-title"><?php echo esc_html($header); ?></h3>
+                        </div>
+                    <?php endif; ?>
 
-                <div id="<?php echo esc_attr($gallery_dom_id); ?>" class="carousel slide"<?php echo $ride ? ' data-bs-ride="' . esc_attr($ride) . '"' : ''; ?><?php echo $data_interval !== false ? ' data-bs-interval="' . esc_attr((string) $data_interval) . '"' : ' data-bs-interval="false"'; ?> aria-label="<?php echo esc_attr__('Media gallery', 'fectionwp-gallery'); ?>">
+                    <div id="<?php echo esc_attr($gallery_dom_id); ?>" class="carousel slide"<?php echo $ride ? ' data-bs-ride="' . esc_attr($ride) . '"' : ''; ?><?php echo $data_interval !== false ? ' data-bs-interval="' . esc_attr((string) $data_interval) . '"' : ' data-bs-interval="false"'; ?> aria-label="<?php echo esc_attr__('Media gallery', 'fectionwp-gallery'); ?>">
                     <div class="carousel-indicators">
                         <?php foreach ($attachment_ids as $index => $aid) : ?>
                             <button type="button" data-bs-target="#<?php echo esc_attr($gallery_dom_id); ?>" data-bs-slide-to="<?php echo esc_attr((string) $index); ?>" class="<?php echo $index === 0 ? 'active' : ''; ?>" aria-current="<?php echo $index === 0 ? 'true' : 'false'; ?>" aria-label="<?php echo esc_attr(sprintf(__('Slide %d', 'fectionwp-gallery'), $index + 1)); ?>"></button>
@@ -176,6 +177,7 @@ class FectionWP_Gallery_Shortcode
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="visually-hidden"><?php echo esc_html__('Next', 'fectionwp-gallery'); ?></span>
                     </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -207,17 +209,18 @@ class FectionWP_Gallery_Shortcode
         ob_start();
         ?>
         <div class="fectionwp-gallery" id="<?php echo esc_attr($gallery_dom_id); ?>_wrap"<?php echo $style_attr; ?>>
-            <?php if ($header !== '') : ?>
-                <div class="mb-3">
-                    <h3 class="fg-title"><?php echo esc_html($header); ?></h3>
-                </div>
-            <?php endif; ?>
+            <div class="fg-section">
+                <?php if ($header !== '') : ?>
+                    <div class="mb-3">
+                        <h3 class="fg-title"><?php echo esc_html($header); ?></h3>
+                    </div>
+                <?php endif; ?>
 
-            <div id="<?php echo esc_attr($gallery_dom_id); ?>" class="carousel slide"<?php echo $ride ? ' data-bs-ride="' . esc_attr($ride) . '"' : ''; ?><?php echo $data_interval !== false ? ' data-bs-interval="' . esc_attr((string) $data_interval) . '"' : ' data-bs-interval="false"'; ?>>
-                <div class="carousel-inner">
-                    <?php foreach ($chunks as $slide_index => $slide_items) : ?>
-                        <div class="carousel-item <?php echo $slide_index === 0 ? 'active' : ''; ?>">
-                            <div class="row g-3">
+                <div id="<?php echo esc_attr($gallery_dom_id); ?>" class="carousel slide"<?php echo $ride ? ' data-bs-ride="' . esc_attr($ride) . '"' : ''; ?><?php echo $data_interval !== false ? ' data-bs-interval="' . esc_attr((string) $data_interval) . '"' : ' data-bs-interval="false"'; ?>>
+                    <div class="carousel-inner">
+                        <?php foreach ($chunks as $slide_index => $slide_items) : ?>
+                            <div class="carousel-item <?php echo $slide_index === 0 ? 'active' : ''; ?>">
+                                <div class="row g-3">
                                 <?php foreach ($slide_items as $aid) : ?>
                                     <div class="<?php echo esc_attr($col_class); ?>">
                                         <div class="card h-100">
@@ -245,10 +248,10 @@ class FectionWP_Gallery_Shortcode
                                         </div>
                                     </div>
                                 <?php endforeach; ?>
+                                </div>
                             </div>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
+                        <?php endforeach; ?>
+                    </div>
 
                 <button class="carousel-control-prev" type="button" data-bs-target="#<?php echo esc_attr($gallery_dom_id); ?>" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -258,6 +261,7 @@ class FectionWP_Gallery_Shortcode
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="visually-hidden"><?php echo esc_html__('Next', 'fectionwp-gallery'); ?></span>
                 </button>
+                </div>
             </div>
         </div>
         <?php

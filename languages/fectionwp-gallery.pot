@@ -27,6 +27,27 @@ msgstr ""
 msgid "Apply Black"
 msgstr ""
 
+msgid "Apply Business"
+msgstr ""
+
+msgid "Business"
+msgstr ""
+
+msgid "Section background"
+msgstr ""
+
+msgid "Section border color"
+msgstr ""
+
+msgid "Section border width"
+msgstr ""
+
+msgid "Section radius"
+msgstr ""
+
+msgid "Section padding"
+msgstr ""
+
 msgid "Apply White"
 msgstr ""
 

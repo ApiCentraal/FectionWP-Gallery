@@ -1,0 +1,7 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Release artifacts
+fectionwp-gallery-*.zip

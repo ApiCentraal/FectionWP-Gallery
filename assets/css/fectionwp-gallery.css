@@ -1,0 +1,154 @@
+.fectionwp-gallery {
+  --fg-radius: 1rem;
+  --fg-shadow: 0 16px 40px rgba(15, 23, 42, 0.12);
+  --fg-media-bg: #0b1220;
+  --fg-card-header-bg: rgba(2, 6, 23, 0.85);
+  --fg-card-header-color: #fff;
+
+  --fg-gap: 1rem;
+  --fg-header-mb: 0.75rem;
+  --fg-font-family: inherit;
+  --fg-title-size: 1.125rem;
+  --fg-text-size: 1rem;
+
+  --fg-media-aspect: 16/9;
+  --fg-media-fit: cover;
+  --fg-media-max-h: 70vh;
+
+  --fg-ind-bg: rgba(255, 255, 255, 0.5);
+  --fg-ind-active-bg: #ffffff;
+  --fg-ind-w: 30px;
+  --fg-ind-h: 3px;
+  --fg-ind-gap: 3px;
+  --fg-ind-opacity: 0.5;
+  --fg-ind-active-opacity: 1;
+
+  --fg-ctrl-icon-w: 2rem;
+  --fg-ctrl-opacity: 0.85;
+  --fg-ctrl-hover-opacity: 1;
+  --fg-ctrl-bg: rgba(2, 6, 23, 0.35);
+  --fg-ctrl-radius: 999px;
+
+  --fg-caption-bg: rgba(2, 6, 23, 0.6);
+  --fg-caption-color: #ffffff;
+  --fg-caption-p: 0.75rem 1rem;
+  --fg-caption-radius: 0.75rem;
+
+  --fg-card-bg: #ffffff;
+  --fg-card-border-color: rgba(15, 23, 42, 0.08);
+  --fg-card-border-w: 1px;
+  --fg-card-body-color: #0f172a;
+  --fg-card-body-p: 1rem;
+
+  --fg-btn-bg: #2563eb;
+  --fg-btn-color: #ffffff;
+  --fg-btn-border-color: #2563eb;
+  --fg-btn-radius: 0.5rem;
+  --fg-btn-p: 0.5rem 0.75rem;
+  --fg-btn-hover-bg: #1d4ed8;
+  --fg-btn-hover-color: #ffffff;
+
+  /* Bootstrap Carousel variables mapping */
+  --bs-carousel-indicator-bg: var(--fg-ind-bg);
+  --bs-carousel-indicator-active-bg: var(--fg-ind-active-bg);
+  --bs-carousel-indicator-width: var(--fg-ind-w);
+  --bs-carousel-indicator-height: var(--fg-ind-h);
+  --bs-carousel-indicator-spacer: var(--fg-ind-gap);
+  --bs-carousel-indicator-opacity: var(--fg-ind-opacity);
+  --bs-carousel-indicator-active-opacity: var(--fg-ind-active-opacity);
+  --bs-carousel-control-icon-width: var(--fg-ctrl-icon-w);
+  --bs-carousel-control-opacity: var(--fg-ctrl-opacity);
+  --bs-carousel-control-hover-opacity: var(--fg-ctrl-hover-opacity);
+}
+
+.fectionwp-gallery .carousel,
+.fectionwp-gallery .card {
+  border-radius: var(--fg-radius);
+}
+
+.fectionwp-gallery .carousel-inner {
+  border-radius: var(--fg-radius);
+  box-shadow: var(--fg-shadow);
+  overflow: hidden;
+}
+
+.fectionwp-gallery .fg-media {
+  background: var(--fg-media-bg);
+  aspect-ratio: var(--fg-media-aspect);
+  overflow: hidden;
+}
+
+.fectionwp-gallery .fg-media img,
+.fectionwp-gallery .fg-media video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: var(--fg-media-fit);
+  max-height: var(--fg-media-max-h);
+}
+
+.fectionwp-gallery .fg-title {
+  font-family: var(--fg-font-family);
+  font-size: var(--fg-title-size);
+  margin: 0 0 var(--fg-header-mb) 0;
+}
+
+.fectionwp-gallery {
+  font-family: var(--fg-font-family);
+  font-size: var(--fg-text-size);
+}
+
+.fectionwp-gallery .carousel-caption {
+  color: var(--fg-caption-color);
+}
+
+.fectionwp-gallery .carousel-caption > * {
+  background: var(--fg-caption-bg);
+  padding: var(--fg-caption-p);
+  border-radius: var(--fg-caption-radius);
+  display: inline-block;
+}
+
+.fectionwp-gallery .carousel-control-prev-icon,
+.fectionwp-gallery .carousel-control-next-icon {
+  background-color: var(--fg-ctrl-bg);
+  border-radius: var(--fg-ctrl-radius);
+}
+
+.fectionwp-gallery .card {
+  box-shadow: var(--fg-shadow);
+  border: var(--fg-card-border-w) solid var(--fg-card-border-color);
+  overflow: hidden;
+  background: var(--fg-card-bg);
+}
+
+.fectionwp-gallery .card .card-header {
+  background: var(--fg-card-header-bg);
+  color: var(--fg-card-header-color);
+  border-bottom: 0;
+}
+
+.fectionwp-gallery .card .card-body {
+  color: var(--fg-card-body-color);
+  padding: var(--fg-card-body-p);
+}
+
+.fectionwp-gallery .row {
+  --bs-gutter-x: var(--fg-gap);
+  --bs-gutter-y: var(--fg-gap);
+}
+
+.fectionwp-gallery .btn.fg-open-btn {
+  background-color: var(--fg-btn-bg);
+  border-color: var(--fg-btn-border-color);
+  color: var(--fg-btn-color);
+  border-radius: var(--fg-btn-radius);
+  padding: var(--fg-btn-p);
+}
+
+.fectionwp-gallery .btn.fg-open-btn:hover,
+.fectionwp-gallery .btn.fg-open-btn:focus {
+  background-color: var(--fg-btn-hover-bg);
+  border-color: var(--fg-btn-hover-bg);
+  color: var(--fg-btn-hover-color);
+}

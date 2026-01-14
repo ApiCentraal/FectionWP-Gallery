@@ -15,7 +15,7 @@ class FectionWP_Gallery_Shortcode
 
     /**
      * Usage:
-     * [fection_gallery id="123" layout="carousel|cards" cards_per_slide="3" header="" footer_button="1" autoplay="1" interval="5000"]
+     * [fection_gallery id="123" layout="carousel|cards" cards_per_slide="3" header="" footer_button="1" autoplay="1" interval="5000" card_show_image="1" card_image_size="large"]
      */
     public function render_shortcode(array $atts = []): string
     {
@@ -28,6 +28,11 @@ class FectionWP_Gallery_Shortcode
                 'footer_button' => 0,
                 'autoplay' => 1,
                 'interval' => 5000,
+                // Live preview/admin overrides (optional):
+                'media_ids' => '',
+                'style' => '',
+                'card_show_image' => '',
+                'card_image_size' => '',
             ],
             $atts,
             self::SHORTCODE
@@ -64,18 +69,59 @@ class FectionWP_Gallery_Shortcode
         $autoplay = (bool) absint($atts['autoplay']);
         $interval = max(0, absint($atts['interval']));
 
-        $attachment_ids = array_map('absint', $meta['media_ids']);
-        $attachment_ids = array_values(array_filter($attachment_ids));
+        $attachment_ids = [];
+        $media_ids_csv = trim((string) $atts['media_ids']);
+        if ($media_ids_csv !== '') {
+            $attachment_ids = array_values(array_filter(array_map('absint', preg_split('/\s*,\s*/', $media_ids_csv) ?: [])));
+        } else {
+            $attachment_ids = array_map('absint', $meta['media_ids']);
+            $attachment_ids = array_values(array_filter($attachment_ids));
+        }
         if (!$attachment_ids) {
             return '';
         }
 
         $gallery_dom_id = 'fg_' . $post_id . '_' . wp_generate_uuid4();
 
-        $style_attr = $this->build_wrapper_style_attr(is_array($meta['style'] ?? null) ? $meta['style'] : []);
+        $style = is_array($meta['style'] ?? null) ? $meta['style'] : [];
+        $style_json = trim((string) $atts['style']);
+        if ($style_json !== '') {
+            $decoded = json_decode($style_json, true);
+            if (is_array($decoded)) {
+                $clean = [];
+                foreach (FectionWP_Gallery_Admin::get_style_schema() as $key => $def) {
+                    if (!isset($decoded[$key])) {
+                        continue;
+                    }
+                    $v = trim((string) $decoded[$key]);
+                    if ($v === '') {
+                        continue;
+                    }
+                    $clean[$key] = $v;
+                }
+                $style = $clean;
+            }
+        }
+
+        $style_attr = $this->build_wrapper_style_attr($style);
+
+        $card_show_image = (bool) $meta['card_show_image'];
+        if ((string) $atts['card_show_image'] !== '') {
+            $card_show_image = absint($atts['card_show_image']) === 1;
+        }
+
+        $card_image_size = (string) $meta['card_image_size'];
+        if ((string) $atts['card_image_size'] !== '') {
+            $card_image_size = sanitize_key((string) $atts['card_image_size']);
+        }
+        $valid_sizes = get_intermediate_image_sizes();
+        $valid_sizes[] = 'full';
+        if (!in_array($card_image_size, $valid_sizes, true)) {
+            $card_image_size = 'large';
+        }
 
         if ($layout === 'cards') {
-            return $this->render_cards_slider($gallery_dom_id, $style_attr, $attachment_ids, $header, $footer_button, $cards_per_slide, $autoplay, $interval);
+            return $this->render_cards_slider($gallery_dom_id, $style_attr, $attachment_ids, $header, $footer_button, $cards_per_slide, $autoplay, $interval, $card_show_image, $card_image_size);
         }
 
         return $this->render_carousel($gallery_dom_id, $style_attr, $attachment_ids, $header, $autoplay, $interval);
@@ -137,7 +183,7 @@ class FectionWP_Gallery_Shortcode
         return (string) ob_get_clean();
     }
 
-    private function render_cards_slider(string $gallery_dom_id, string $style_attr, array $attachment_ids, string $header, bool $footer_button, int $cards_per_slide, bool $autoplay, int $interval): string
+    private function render_cards_slider(string $gallery_dom_id, string $style_attr, array $attachment_ids, string $header, bool $footer_button, int $cards_per_slide, bool $autoplay, int $interval, bool $card_show_image, string $card_image_size): string
     {
         $chunks = array_chunk($attachment_ids, $cards_per_slide);
 
@@ -175,9 +221,11 @@ class FectionWP_Gallery_Shortcode
                                 <?php foreach ($slide_items as $aid) : ?>
                                     <div class="<?php echo esc_attr($col_class); ?>">
                                         <div class="card h-100">
-                                            <div class="fg-media">
-                                                <?php echo $this->render_media($aid, 'card-img-top'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-                                            </div>
+                                            <?php if ($card_show_image) : ?>
+                                                <div class="fg-media">
+                                                    <?php echo $this->render_media($aid, 'card-img-top', $card_image_size); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+                                                </div>
+                                            <?php endif; ?>
                                             <?php
                                             $caption = wp_get_attachment_caption($aid);
                                             if ($caption) :
@@ -240,14 +288,14 @@ class FectionWP_Gallery_Shortcode
         return ' style="' . esc_attr(implode(';', $vars) . ';') . '"';
     }
 
-    private function render_media(int $attachment_id, string $class): string
+    private function render_media(int $attachment_id, string $class, string $image_size = 'large'): string
     {
         $mime = (string) get_post_mime_type($attachment_id);
 
         if (strpos($mime, 'image/') === 0) {
             return wp_get_attachment_image(
                 $attachment_id,
-                'large',
+                $image_size,
                 false,
                 [
                     'class' => trim('d-block ' . $class),

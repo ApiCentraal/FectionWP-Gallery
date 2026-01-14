@@ -41,6 +41,9 @@ class FectionWP_Gallery
         add_action('admin_init', [$this->admin, 'register_settings']);
         add_action('admin_init', [$this->admin, 'maybe_apply_preset']);
 
+        // Admin live preview.
+        add_action('wp_ajax_fg_render_preview', [$this->admin, 'ajax_render_preview']);
+
         // Ensure meta is registered for REST/editor.
         add_action('init', [$this->admin, 'register_meta']);
     }

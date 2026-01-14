@@ -53,6 +53,9 @@
       if (Number.isFinite(id) && id > 0) ids.push(id);
     });
     $('#fg-media-ids').val(ids.join(','));
+
+    // Let other admin scripts (e.g. live preview) react.
+    $(document).trigger('fg_media_ids_updated', [ids]);
   }
 
   $(function () {
@@ -79,6 +82,8 @@
     $('#fg-clear-media').on('click', function () {
       $ids.val('');
       $('#fg-media-preview').empty();
+
+      $(document).trigger('fg_media_ids_updated', [[]]);
     });
 
     $('#fg-pick-media').on('click', function (e) {
@@ -114,6 +119,8 @@
 
         $ids.val(ids.join(','));
         renderPreview(atts);
+
+        $(document).trigger('fg_media_ids_updated', [ids]);
       });
 
       frame.open();

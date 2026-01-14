@@ -14,6 +14,9 @@ class FectionWP_Gallery_Admin
     private const META_HEADER_TEXT = '_fection_gallery_header_text';
     private const META_FOOTER_BUTTON = '_fection_gallery_footer_button';
 
+    private const META_CARD_SHOW_IMAGE = '_fection_gallery_card_show_image';
+    private const META_CARD_IMAGE_SIZE = '_fection_gallery_card_image_size';
+
     private const META_STYLE_JSON = '_fection_gallery_style';
 
     private const META_STYLE_RADIUS = '_fection_gallery_style_radius';
@@ -595,6 +598,10 @@ class FectionWP_Gallery_Admin
             'card_body_color' => ['label' => __('Card text color', 'fectionwp-gallery'), 'default' => '#0f172a', 'type' => 'color', 'var' => '--fg-card-body-color', 'section' => 'cards'],
             'card_body_p' => ['label' => __('Card body padding', 'fectionwp-gallery'), 'default' => '1rem', 'type' => 'length', 'var' => '--fg-card-body-p', 'section' => 'cards'],
 
+            'card_media_aspect' => ['label' => __('Card media aspect ratio', 'fectionwp-gallery'), 'default' => '4/3', 'type' => 'ratio', 'var' => '--fg-card-media-aspect', 'section' => 'cards'],
+            'card_media_fit' => ['label' => __('Card media fit', 'fectionwp-gallery'), 'default' => 'cover', 'type' => 'select', 'choices' => ['cover' => __('Cover', 'fectionwp-gallery'), 'contain' => __('Contain', 'fectionwp-gallery')], 'var' => '--fg-card-media-fit', 'section' => 'cards'],
+            'card_media_max_h' => ['label' => __('Card media max height', 'fectionwp-gallery'), 'default' => '320px', 'type' => 'length', 'var' => '--fg-card-media-max-h', 'section' => 'cards'],
+
             // Buttons
             'btn_bg' => ['label' => __('Button background', 'fectionwp-gallery'), 'default' => '#2563eb', 'type' => 'color', 'var' => '--fg-btn-bg', 'section' => 'buttons'],
             'btn_color' => ['label' => __('Button text color', 'fectionwp-gallery'), 'default' => '#ffffff', 'type' => 'color', 'var' => '--fg-btn-color', 'section' => 'buttons'],
@@ -669,6 +676,9 @@ class FectionWP_Gallery_Admin
         register_post_meta(FectionWP_Gallery_CPT::POST_TYPE, self::META_HEADER_TEXT, $meta_args);
         register_post_meta(FectionWP_Gallery_CPT::POST_TYPE, self::META_FOOTER_BUTTON, $meta_args);
 
+        register_post_meta(FectionWP_Gallery_CPT::POST_TYPE, self::META_CARD_SHOW_IMAGE, $meta_args);
+        register_post_meta(FectionWP_Gallery_CPT::POST_TYPE, self::META_CARD_IMAGE_SIZE, $meta_args);
+
         register_post_meta(FectionWP_Gallery_CPT::POST_TYPE, self::META_STYLE_JSON, $meta_args);
 
         register_post_meta(FectionWP_Gallery_CPT::POST_TYPE, self::META_STYLE_RADIUS, $meta_args);
@@ -691,6 +701,42 @@ class FectionWP_Gallery_Admin
 
         if ($is_gallery_post) {
             wp_enqueue_media();
+
+            // Ensure the live preview renders like the frontend.
+            wp_enqueue_style(
+                'bootstrap-5-3-local',
+                FECTIONWPGALLERY_URL . 'assets/vendor/bootstrap/bootstrap.min.css',
+                [],
+                '5.3.3'
+            );
+
+            wp_enqueue_script(
+                'bootstrap-5-3-local',
+                FECTIONWPGALLERY_URL . 'assets/vendor/bootstrap/bootstrap.bundle.min.js',
+                [],
+                '5.3.3',
+                true
+            );
+
+            wp_enqueue_style(
+                'fectionwp-gallery',
+                FECTIONWPGALLERY_URL . 'assets/css/fectionwp-gallery.css',
+                ['bootstrap-5-3-local'],
+                FECTIONWPGALLERY_VERSION
+            );
+
+            $inline_css = self::build_global_inline_css();
+            if ($inline_css !== '') {
+                wp_add_inline_style('fectionwp-gallery', $inline_css);
+            }
+
+            wp_enqueue_script(
+                'fectionwp-gallery',
+                FECTIONWPGALLERY_URL . 'assets/js/fectionwp-gallery.js',
+                ['bootstrap-5-3-local'],
+                FECTIONWPGALLERY_VERSION,
+                true
+            );
         }
 
         wp_enqueue_style(
@@ -758,11 +804,26 @@ class FectionWP_Gallery_Admin
                 true
             );
 
+            wp_enqueue_script(
+                'fectionwp-gallery-admin-live-preview',
+                FECTIONWPGALLERY_URL . 'assets/js/admin-live-preview.js',
+                ['jquery', 'fectionwp-gallery-admin'],
+                FECTIONWPGALLERY_VERSION,
+                true
+            );
+
             wp_localize_script('fectionwp-gallery-admin', 'FectionGalleryAdmin', [
                 'frameTitle' => __('Select media', 'fectionwp-gallery'),
                 'frameButton' => __('Use selected', 'fectionwp-gallery'),
                 'remove' => __('Remove', 'fectionwp-gallery'),
                 'openInLibrary' => __('Open in Media Library', 'fectionwp-gallery'),
+            ]);
+
+            wp_localize_script('fectionwp-gallery-admin-live-preview', 'FectionGalleryLivePreview', [
+                'nonce' => wp_create_nonce('fg_live_preview'),
+                'loading' => __('Loading preview…', 'fectionwp-gallery'),
+                'error' => __('Could not render preview.', 'fectionwp-gallery'),
+                'noMedia' => __('Select media to see a preview.', 'fectionwp-gallery'),
             ]);
         }
     }
@@ -797,41 +858,68 @@ class FectionWP_Gallery_Admin
         $media_library_url = admin_url('upload.php?mode=list&post_mime_type=image');
         ?>
         <div class="fection-gallery-admin">
-            <p>
-                <button type="button" class="button button-primary" id="fg-pick-media"><?php echo esc_html__('Choose media', 'fectionwp-gallery'); ?></button>
-                <button type="button" class="button" id="fg-clear-media"><?php echo esc_html__('Clear', 'fectionwp-gallery'); ?></button>
-                <a class="button" href="<?php echo esc_url($media_library_url); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Open Media Library', 'fectionwp-gallery'); ?></a>
-            </p>
+            <div class="fg-builder-grid">
+                <div class="fg-builder-left">
+                    <p>
+                        <button type="button" class="button button-primary" id="fg-pick-media"><?php echo esc_html__('Choose media', 'fectionwp-gallery'); ?></button>
+                        <button type="button" class="button" id="fg-clear-media"><?php echo esc_html__('Clear', 'fectionwp-gallery'); ?></button>
+                        <a class="button" href="<?php echo esc_url($media_library_url); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Open Media Library', 'fectionwp-gallery'); ?></a>
+                    </p>
 
-            <input type="hidden" id="fg-media-ids" name="fg_media_ids" value="<?php echo esc_attr($ids_csv); ?>" />
+                    <input type="hidden" id="fg-media-ids" name="fg_media_ids" value="<?php echo esc_attr($ids_csv); ?>" />
 
-            <div id="fg-media-preview" class="fg-media-preview">
-                <?php foreach ($meta['media_ids'] as $aid) :
-                    $thumb = wp_get_attachment_image($aid, 'thumbnail');
-                    $edit_link = get_edit_post_link($aid, '');
-                    if ($thumb) {
-                        echo '<div class="fg-thumb" data-id="' . esc_attr((string) $aid) . '">' . $thumb; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-                        echo '<div class="fg-thumb-actions">';
-                        if ($edit_link) {
-                            echo '<a href="' . esc_url($edit_link) . '" target="_blank" rel="noopener noreferrer">' . esc_html__('Open in Media Library', 'fectionwp-gallery') . '</a>';
-                        }
-                        echo '<button type="button" class="button-link fg-remove-media" data-id="' . esc_attr((string) $aid) . '">' . esc_html__('Remove', 'fectionwp-gallery') . '</button>';
-                        echo '</div>';
-                        echo '</div>';
-                    }
-                endforeach; ?>
+                    <div id="fg-media-preview" class="fg-media-preview">
+                        <?php foreach ($meta['media_ids'] as $aid) :
+                            $thumb = wp_get_attachment_image($aid, 'thumbnail');
+                            $edit_link = get_edit_post_link($aid, '');
+                            if ($thumb) {
+                                echo '<div class="fg-thumb" data-id="' . esc_attr((string) $aid) . '">' . $thumb; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                echo '<div class="fg-thumb-actions">';
+                                if ($edit_link) {
+                                    echo '<a href="' . esc_url($edit_link) . '" target="_blank" rel="noopener noreferrer">' . esc_html__('Open in Media Library', 'fectionwp-gallery') . '</a>';
+                                }
+                                echo '<button type="button" class="button-link fg-remove-media" data-id="' . esc_attr((string) $aid) . '">' . esc_html__('Remove', 'fectionwp-gallery') . '</button>';
+                                echo '</div>';
+                                echo '</div>';
+                            }
+                        endforeach; ?>
+                    </div>
+
+                    <p class="description">
+                        <?php echo esc_html__('Tip: select images and videos from the Media Library. Order is preserved.', 'fectionwp-gallery'); ?>
+                        <br />
+                        <?php echo esc_html__('Tip: drag thumbnails to reorder. Click “Remove” to exclude an item (save the gallery to apply).', 'fectionwp-gallery'); ?>
+                    </p>
+
+                    <p>
+                        <?php echo esc_html__('Shortcode:', 'fectionwp-gallery'); ?>
+                        <code>[fection_gallery id="<?php echo esc_html((string) $post->ID); ?>"]</code>
+                    </p>
+                </div>
+
+                <div class="fg-builder-right">
+                    <div class="fg-live-preview-panel" id="fg-live-preview" data-post-id="<?php echo esc_attr((string) $post->ID); ?>">
+                        <div class="fg-live-preview-toolbar">
+                            <strong><?php echo esc_html__('Live preview', 'fectionwp-gallery'); ?></strong>
+                            <button type="button" class="button" id="fg-refresh-preview"><?php echo esc_html__('Refresh', 'fectionwp-gallery'); ?></button>
+                            <label style="margin-left:auto;">
+                                <input type="checkbox" id="fg_preview_autoplay" value="1" checked />
+                                <?php echo esc_html__('Autoplay', 'fectionwp-gallery'); ?>
+                            </label>
+                            <label>
+                                <?php echo esc_html__('Interval (ms)', 'fectionwp-gallery'); ?>
+                                <input type="number" id="fg_preview_interval" value="5000" min="0" step="100" style="width: 100px;" />
+                            </label>
+                        </div>
+
+                        <div class="fg-live-preview-status" id="fg-live-preview-status"></div>
+                        <div class="fg-live-preview-output" id="fg-live-preview-output"></div>
+                        <p class="description" style="margin-top:10px;">
+                            <?php echo esc_html__('This preview updates automatically when you change media, settings, or styling overrides.', 'fectionwp-gallery'); ?>
+                        </p>
+                    </div>
+                </div>
             </div>
-
-            <p class="description">
-                <?php echo esc_html__('Tip: select images and videos from the Media Library. Order is preserved.', 'fectionwp-gallery'); ?>
-                <br />
-                <?php echo esc_html__('Tip: drag thumbnails to reorder. Click “Remove” to exclude an item (save the gallery to apply).', 'fectionwp-gallery'); ?>
-            </p>
-
-            <p>
-                <?php echo esc_html__('Shortcode:', 'fectionwp-gallery'); ?>
-                <code>[fection_gallery id="<?php echo esc_html((string) $post->ID); ?>"]</code>
-            </p>
         </div>
         <?php
     }
@@ -840,6 +928,8 @@ class FectionWP_Gallery_Admin
     {
         $meta = self::get_gallery_meta($post->ID);
         $styling_url = admin_url('admin.php?page=fectionwp-gallery-styling');
+        $sizes = get_intermediate_image_sizes();
+        $sizes[] = 'full';
         ?>
         <p>
             <label for="fg_layout"><strong><?php echo esc_html__('Layout', 'fectionwp-gallery'); ?></strong></label>
@@ -861,6 +951,25 @@ class FectionWP_Gallery_Admin
                 <input type="checkbox" name="fg_footer_button" value="1" <?php checked($meta['footer_button']); ?> />
                 <?php echo esc_html__('Show “Open” button in card footer', 'fectionwp-gallery'); ?>
             </label>
+        </p>
+
+        <hr />
+
+        <p>
+            <label>
+                <input type="checkbox" id="fg_card_show_image" name="fg_card_show_image" value="1" <?php checked($meta['card_show_image']); ?> />
+                <?php echo esc_html__('Show media in cards', 'fectionwp-gallery'); ?>
+            </label>
+        </p>
+
+        <p>
+            <label for="fg_card_image_size"><strong><?php echo esc_html__('Card image size', 'fectionwp-gallery'); ?></strong></label>
+            <select class="widefat" id="fg_card_image_size" name="fg_card_image_size">
+                <?php foreach ($sizes as $size) : ?>
+                    <option value="<?php echo esc_attr((string) $size); ?>" <?php selected($meta['card_image_size'], (string) $size); ?>><?php echo esc_html((string) $size); ?></option>
+                <?php endforeach; ?>
+            </select>
+            <span class="description"><?php echo esc_html__('Only applies to the card slider layout. Use Styling to control aspect ratio / height.', 'fectionwp-gallery'); ?></span>
         </p>
 
         <p class="description">
@@ -933,6 +1042,14 @@ class FectionWP_Gallery_Admin
         $header_text = isset($_POST['fg_header_text']) ? sanitize_text_field((string) wp_unslash($_POST['fg_header_text'])) : '';
         $footer_button = isset($_POST['fg_footer_button']) ? 1 : 0;
 
+        $card_show_image = isset($_POST['fg_card_show_image']) ? 1 : 0;
+        $card_image_size = isset($_POST['fg_card_image_size']) ? sanitize_key((string) wp_unslash($_POST['fg_card_image_size'])) : 'large';
+        $valid_sizes = get_intermediate_image_sizes();
+        $valid_sizes[] = 'full';
+        if (!in_array($card_image_size, $valid_sizes, true)) {
+            $card_image_size = 'large';
+        }
+
         $style_input = [];
         if (isset($_POST['fg_style']) && is_array($_POST['fg_style'])) {
             // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
@@ -946,6 +1063,9 @@ class FectionWP_Gallery_Admin
         update_post_meta($post_id, self::META_CARDS_PER_SLIDE, (string) $cards_per_slide);
         update_post_meta($post_id, self::META_HEADER_TEXT, $header_text);
         update_post_meta($post_id, self::META_FOOTER_BUTTON, (string) $footer_button);
+
+        update_post_meta($post_id, self::META_CARD_SHOW_IMAGE, (string) $card_show_image);
+        update_post_meta($post_id, self::META_CARD_IMAGE_SIZE, (string) $card_image_size);
 
         update_post_meta($post_id, self::META_STYLE_JSON, wp_json_encode($style_clean));
 
@@ -974,6 +1094,18 @@ class FectionWP_Gallery_Admin
 
         $header_text = (string) get_post_meta($post_id, self::META_HEADER_TEXT, true);
         $footer_button = absint(get_post_meta($post_id, self::META_FOOTER_BUTTON, true)) === 1;
+
+        $card_show_image = absint(get_post_meta($post_id, self::META_CARD_SHOW_IMAGE, true));
+        if ($card_show_image !== 0 && $card_show_image !== 1) {
+            $card_show_image = 1;
+        }
+
+        $card_image_size = sanitize_key((string) get_post_meta($post_id, self::META_CARD_IMAGE_SIZE, true));
+        $valid_sizes = get_intermediate_image_sizes();
+        $valid_sizes[] = 'full';
+        if ($card_image_size === '' || !in_array($card_image_size, $valid_sizes, true)) {
+            $card_image_size = 'large';
+        }
 
         $style = [];
         $style_json = (string) get_post_meta($post_id, self::META_STYLE_JSON, true);
@@ -1004,7 +1136,68 @@ class FectionWP_Gallery_Admin
             'cards_per_slide' => $cards_per_slide,
             'header_text' => $header_text,
             'footer_button' => $footer_button,
+            'card_show_image' => $card_show_image === 1,
+            'card_image_size' => $card_image_size,
             'style' => $style,
         ];
+    }
+
+    public function ajax_render_preview(): void
+    {
+        if (!current_user_can('edit_posts')) {
+            wp_send_json_error(['message' => 'forbidden'], 403);
+        }
+
+        check_ajax_referer('fg_live_preview', 'nonce');
+
+        $post_id = isset($_POST['id']) ? absint($_POST['id']) : 0;
+        if (!$post_id || get_post_type($post_id) !== FectionWP_Gallery_CPT::POST_TYPE) {
+            wp_send_json_error(['message' => 'invalid'], 400);
+        }
+        if (!current_user_can('edit_post', $post_id)) {
+            wp_send_json_error(['message' => 'forbidden'], 403);
+        }
+
+        $layout = isset($_POST['layout']) ? sanitize_key((string) wp_unslash($_POST['layout'])) : '';
+        if (!in_array($layout, ['carousel', 'cards'], true)) {
+            $layout = '';
+        }
+
+        $cards_per_slide = isset($_POST['cards_per_slide']) ? absint($_POST['cards_per_slide']) : 3;
+        $cards_per_slide = max(1, min(6, $cards_per_slide));
+
+        $header = isset($_POST['header']) ? sanitize_text_field((string) wp_unslash($_POST['header'])) : '';
+        $footer_button = isset($_POST['footer_button']) ? absint($_POST['footer_button']) : 0;
+
+        $card_show_image = isset($_POST['card_show_image']) ? absint($_POST['card_show_image']) : 1;
+        $card_image_size = isset($_POST['card_image_size']) ? sanitize_key((string) wp_unslash($_POST['card_image_size'])) : 'large';
+        $valid_sizes = get_intermediate_image_sizes();
+        $valid_sizes[] = 'full';
+        if (!in_array($card_image_size, $valid_sizes, true)) {
+            $card_image_size = 'large';
+        }
+
+        $autoplay = isset($_POST['autoplay']) ? absint($_POST['autoplay']) : 1;
+        $interval = isset($_POST['interval']) ? absint($_POST['interval']) : 5000;
+        $interval = max(0, $interval);
+
+        $media_ids = isset($_POST['media_ids']) ? (string) wp_unslash($_POST['media_ids']) : '';
+        $style = isset($_POST['style']) ? (string) wp_unslash($_POST['style']) : '';
+
+        $renderer = new FectionWP_Gallery_Shortcode();
+        $html = $renderer->render_shortcode([
+            'id' => $post_id,
+            'layout' => $layout,
+            'cards_per_slide' => $cards_per_slide,
+            'header' => $header,
+            'footer_button' => (int) (bool) $footer_button,
+            'autoplay' => (int) (bool) $autoplay,
+            'interval' => $interval,
+            'media_ids' => $media_ids,
+            'style' => $style,
+            'card_show_image' => (int) (bool) $card_show_image,
+            'card_image_size' => $card_image_size,
+        ]);
+        wp_send_json_success(['html' => $html]);
     }
 }

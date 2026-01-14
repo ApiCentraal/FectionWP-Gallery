@@ -15,6 +15,11 @@
   --fg-media-fit: cover;
   --fg-media-max-h: 70vh;
 
+  /* Cards can use a different media sizing than the main carousel */
+  --fg-card-media-aspect: 4/3;
+  --fg-card-media-fit: cover;
+  --fg-card-media-max-h: 320px;
+
   --fg-ind-bg: rgba(255, 255, 255, 0.5);
   --fg-ind-active-bg: #ffffff;
   --fg-ind-w: 30px;
@@ -74,8 +79,15 @@
 
 .fectionwp-gallery .fg-media {
   background: var(--fg-media-bg);
-  aspect-ratio: var(--fg-media-aspect);
   overflow: hidden;
+}
+
+.fectionwp-gallery .carousel .fg-media {
+  aspect-ratio: var(--fg-media-aspect);
+}
+
+.fectionwp-gallery .card .fg-media {
+  aspect-ratio: var(--fg-card-media-aspect);
 }
 
 .fectionwp-gallery .fg-media img,
@@ -85,6 +97,12 @@
   display: block;
   object-fit: var(--fg-media-fit);
   max-height: var(--fg-media-max-h);
+}
+
+.fectionwp-gallery .card .fg-media img,
+.fectionwp-gallery .card .fg-media video {
+  object-fit: var(--fg-card-media-fit);
+  max-height: var(--fg-card-media-max-h);
 }
 
 .fectionwp-gallery .fg-title {

@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: FectionWP Gallery 1.0.2\n"
+"Project-Id-Version: FectionWP Gallery 1.0.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-14 00:00+0000\n"
 "PO-Revision-Date: 2026-01-14 00:00+0000\n"
@@ -320,6 +320,24 @@ msgstr "Galerij bekijken"
 
 msgid "White"
 msgstr "Wit"
+
+msgid "Open Media Library"
+msgstr "Open mediabibliotheek"
+
+msgid "Open in Media Library"
+msgstr "Openen in mediabibliotheek"
+
+msgid "Remove"
+msgstr "Verwijderen"
+
+msgid "Tip: drag thumbnails to reorder. Click “Remove” to exclude an item (save the gallery to apply)."
+msgstr "Tip: sleep thumbnails om te herschikken. Klik op “Verwijderen” om een item uit te sluiten (sla de galerij op om toe te passen)."
+
+msgid "Filter settings"
+msgstr "Instellingen filteren"
+
+msgid "Type to filter (e.g. button, caption, radius)…"
+msgstr "Typ om te filteren (bijv. knop, caption, radius)…"
 
 msgid "Preview"
 msgstr "Voorbeeld"

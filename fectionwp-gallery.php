@@ -1,0 +1,26 @@
+<?php
+/**
+ * Plugin Name: FectionWP Gallery
+ * Description: Photo/video media galleries as beautiful Bootstrap 5.3 sliders, cards and widgets.
+ * Version: 0.1.0
+ * Author: FectionLabs
+ * License: GPL-2.0-or-later
+ */
+
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+define('FECTIONWPGALLERY_VERSION', '0.1.0');
+define('FECTIONWPGALLERY_FILE', __FILE__);
+define('FECTIONWPGALLERY_DIR', plugin_dir_path(__FILE__));
+define('FECTIONWPGALLERY_URL', plugin_dir_url(__FILE__));
+
+require_once FECTIONWPGALLERY_DIR . 'includes/class-fectionwp-gallery.php';
+
+function fectionwpgallery_run(): void {
+    $plugin = new FectionWP_Gallery();
+    $plugin->run();
+}
+
+fectionwpgallery_run();
